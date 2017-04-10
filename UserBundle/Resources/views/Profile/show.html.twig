@@ -1,0 +1,334 @@
+{% extends "::base.html.twig" %}
+
+	{% block title %}Mon profil {% endblock %}
+
+	{% block name %}
+            <div class="brand">Bienvenue {{ app.user.firstname|capitalize ~' '~ app.user.name|capitalize }}</div>
+            <div class="address-bar"></div>
+    {% endblock %}
+
+    
+    {% block thematic %}
+    {% endblock %}
+
+    {% block body %}
+
+        <div class="container">
+
+            <div class="row">
+                <div class="box">
+                    {% for message in app.session.flashBag.get('estimate') %}
+                        <div id="flash">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+
+                    {% for messa in app.session.flashBag.get('editProfil') %}
+                        <div id="flash">
+                            {{ messa }} 
+                        </div>
+                    {% endfor %}
+                    <div class="col-lg-12">
+                        <hr>
+                        <h2 class="intro-text text-center">
+                            <strong>Mon profil</strong>
+                        </h2>
+                        <hr>                                                
+                        <hr class="visible-xs">
+                            <div style="text-align:center;">
+                                <button class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">
+                                    Voir mon profil
+                                </button>
+                            </div>
+
+                            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                                            <h4 class="modal-title" id="myModalLabel">{{ app.user.firstname|capitalize ~' '~ app.user.name|capitalize }}</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            Votre adresse : {{ app.user.adress ~ ' ' ~ app.user.city ~ ' ' ~ app.user.postcode }}<br><br>
+                                            N° de téléphone : {{ app.user.phoneNumber }}<br><br>
+                                            Mail : {{ app.user.email }}  <br>                                          
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-info" data-dismiss="modal">Fermer</button>
+                                            <a href="{{ path('fos_user_profile_edit') }}"><button type="button" class="btn btn-primary">Modifier mon profil</button></a>
+                                        </div>
+                                    </div>
+                                    <!-- /.modal-content -->
+                                </div>
+                                <!-- /.modal-dialog -->
+                            </div>
+                    </div>
+                </div>
+            </div>
+                   
+            {% if reservations is not null %}                
+                {% for resa in reservations %}
+                    {% if resa.state == 0 or resa.state == 1 %}
+                        <div class="row">
+                            <div class="box">
+                                <div class="col-lg-12">
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading">                                             
+                                            Ma demande de réservation en cours                                            
+                                        </div>                                           
+                                        <div class="panel-body" style="text-align:center;">
+                                            <p class="intro-text text-center" style="margin-top:15px;margin-bottom:25px;justify"><a href="{{ path('front_office_trip_oneTrip',{id:resa.trip.id}) }}" target="_blank">{{ resa.trip.title|capitalize}}</a></p>
+                                            <p><strong>Date de départ : </strong>{{ resa.trip.dateBegining|date('d-m-Y')}}</p>                              
+                                            <p><strong>Ma demande : </strong>
+                                                {% if resa.comment is not null %}
+                                                    {{ resa.comment|capitalize}}</p>                                             
+                                                {% endif %}                                        
+                                            <p><strong>Montant global estimé : {{ resa.amountTotal}} € </strong> (à valider avec Inde sur mesure)</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% elseif resa.state == 2 %}
+                        <div class="row">
+                            <div class="box">
+                                <div class="col-md-12">
+                                    <hr>
+                                    <h2 class="intro-text text-center">
+                                        <strong>Mon prochain voyage : {{ resa.trip.title|capitalize }}</strong>
+                                    </h2>
+                                    <hr/>
+                                </div>
+
+                                {% for img in resa.trip.image %}
+                                    <div class="col-sm-12 text-center">
+                                        <img class="img-responsive" src="{{ asset('bundles/framework/images/' ~ img.filename)}}" alt="" style="height:350px;width:715px;margin-left:200px;margin-bottom:35px;">
+                                        {% if resa.trip.brochure is not null %}
+                                            <div style="text-align:center;">
+                                                <a href="{{ asset('bundles/framework/brochures/' ~resa.trip.brochure)}}" title="Voir la brochure sous format PDF" target="_blank"><button class="btn btn-success btn-lg">Voir le descriptif</button></a>
+                                            </div>
+                                        {% endif %}
+                                    </div>                                     
+                                        <div class="col-sm-6 text-center">
+                                            {% if img.filename1 is not null %}
+                                                <img class="img-responsive" src="{{ asset('bundles/framework/images/' ~ img.filename1)}}" alt="" style="height:250px;width:515px;margin-top:35px;">
+                                            {% endif %}
+                                            {% if resa.trip.comment1 is not null %}
+                                                <p style="text-align:justify;">{{ resa.trip.comment1|capitalize }}</p>
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-sm-6 text-center">
+                                            {% if img.filename2 is not null %}
+                                                <img class="img-responsive" src="{{ asset('bundles/framework/images/' ~ img.filename2)}}" alt="" style="height:250px;width:515px;margin-top:35px;">
+                                            {% endif %}
+                                            {% if resa.trip.comment2 is not null %}
+                                                <p style="text-align:justify;">{{resa.trip.comment2|capitalize }}</p>
+                                            {% endif %}
+                                        </div>                                        
+                                    {% if img.filename1 is not null and img.filename2 is null %}
+                                        <div class="col-sm-12 text-center">
+                                            <img class="img-responsive" src="{{ asset('bundles/framework/images/' ~ img.filename1)}}" alt="" style="height:250px;width:515px;">
+                                            {% if resa.trip.comment1 is not null %}
+                                                <p style="text-align:justify;">{{ resa.trip.comment1|capitalize }}</p>
+                                            {% endif %}
+                                        </div>
+                                    {% endif %}
+                                    <hr/>
+                                {% endfor %}
+
+                                <div class="clearfix"></div>
+                                    {% if resa.trip.public == 1 %}                                        
+                                        <div class="col-md-6" style="text-align:center;margin-top:29px;">
+                                            <a href="{{ path('front_office_underlineTrip_oneUnderlineTrip',{id:resa.trip.id}) }}" target="_blank"><button class="btn btn-warning btn-lg">Voir le détail du voyage</button></a>
+                                        </div>
+                                        <div class="col-md-6" style="text-align:center;margin-top:29px;">
+                                            <a href="{{ path('front_office_trip_price_show',{id:resa.trip.id}) }}"><button class="btn btn-info btn-lg">Voir les tarifs</button></a>
+                                        </div>                                                                       
+                                    {% else %}               
+                                        {% if resa.trip.underlineTrip is not null %}
+                                            <div class="col-md-6" style="text-align:center;margin-top:29px;">
+                                                <a href="{{ path('front_office_underlineTrip_oneUnderlineTrip',{id:resa.trip.id}) }}" target="_blank"><button class="btn btn-warning btn-lg">Voir le détail du voyage</button></a>
+                                            </div>
+                                            <div class="col-md-6" style="text-align:center;margin-top:29px;">
+                                                <p><button class="btn btn-success btn-lg">Prix global: {{ resa.trip.globalPrice }} €</button></p>
+                                            </div>                                            
+                                        {% endif %}                                      
+                                            <div class="col-md-12" style="text-align:center;margin-top:29px;">
+                                                <p><button class="btn btn-success btn-lg">Prix global: {{ resa.trip.globalPrice }} €</button></p>
+                                            </div>                                        
+                                    {% endif %}
+                            </div>
+                        </div>
+                        <hr/>
+                    {% endif %}                                                          
+                {% endfor %}
+            {% endif %}
+
+            {% if estimatesByUser is not null and estimatesByUser is not empty %}
+                {% for estimate in estimatesByUser %}
+                    {% if estimate.state == 2 %}
+                        {% for trip in estimate.trip %}
+                            {% if trip.sold == 1 %}
+                                <div class="row">
+                                    <div class="box">
+                                        <div class="col-md-12">
+                                            <hr>
+                                            <h2 class="intro-text text-center">
+                                                <strong>Mon prochain voyage sur mesure : {{ trip.title|capitalize }}</strong>
+                                            </h2>
+                                            <hr/>
+                                        </div>
+
+                                    {% for img in trip.image %}
+                                        <div class="col-sm-12 text-center">
+                                            <img class="img-responsive" src="{{ asset('bundles/framework/images/' ~ img.filename)}}" alt="" style="height:350px;width:715px;margin-left:200px;margin-bottom:35px;">
+                                            {% if trip.brochure is not null %}
+                                                <div style="text-align:center;">
+                                                    <a href="{{ asset('bundles/framework/brochures/' ~resa.trip.brochure)}}" title="Voir la brochure sous format PDF" target="_blank"><button class="btn btn-success btn-lg">Voir le descriptif</button></a>
+                                                </div>
+                                            {% endif %}
+                                        </div>                                     
+                                            <div class="col-sm-6 text-center">
+                                                {% if img.filename1 is not null %}
+                                                    <img class="img-responsive" src="{{ asset('bundles/framework/images/' ~ img.filename1)}}" alt="" style="height:250px;width:515px;margin-top:35px;">
+                                                {% endif %}
+                                                {% if trip.comment1 is not null %}
+                                                    <p style="text-align:justify;">{{ trip.comment1|capitalize }}</p>
+                                                {% endif %}
+                                            </div>
+                                            <div class="col-sm-6 text-center">
+                                                {% if img.filename2 is not null %}
+                                                    <img class="img-responsive" src="{{ asset('bundles/framework/images/' ~ img.filename2)}}" alt="" style="height:250px;width:515px;margin-top:35px;">
+                                                {% endif %}
+                                                {% if trip.comment2 is not null %}
+                                                    <p style="text-align:justify;">{{trip.comment2|capitalize }}</p>
+                                                {% endif %}
+                                            </div>                                        
+                                        {% if img.filename1 is not null and img.filename2 is null %}
+                                            <div class="col-sm-12 text-center">
+                                                <img class="img-responsive" src="{{ asset('bundles/framework/images/' ~ img.filename1)}}" alt="" style="height:250px;width:515px;">
+                                                {% if trip.comment1 is not null %}
+                                                    <p style="text-align:justify;">{{ trip.comment1|capitalize }}</p>
+                                                {% endif %}
+                                            </div>
+                                        {% endif %}
+                                        <hr/>
+                                    {% endfor %}
+                                            <div class="clearfix"></div>
+                                                {% if trip.underlineTrip is not null and  trip.underlineTrip is not empty %}
+                                                     <div class="col-md-6" style="text-align:center;margin-top:29px;">
+                                                        <a href="{{ path('front_office_underlineTrip_oneUnderlineTrip',{id:trip.id}) }}"><button class="btn btn-warning btn-lg">Voir le détail du voyage</button></a>
+                                                    </div>
+                                                    <div class="col-md-6" style="margin-top:29px;">
+                                                       <p><button class="btn btn-success btn-lg" style="margin-left:150px;">Prix global: {{ trip.globalPrice }} €</button></p>
+                                                    </div>
+                                                {% else %}                                      
+                                                    <div class="col-md-12" style="margin-top:29px;">
+                                                        <p><button class="btn btn-success btn-lg" style="margin-left:460px;">Prix global: {{ trip.globalPrice }} €</button></p>
+                                                    </div>
+                                                {% endif %}
+                                    </div>
+                                </div>
+                                <hr/>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}                                                          
+                {% endfor %}
+            {% endif %}           
+
+            {% if estimatesByUser is not empty %}
+                <div class="row">
+                    <div class="box">
+                        <div class="col-lg-12">
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    Voir mes demandes
+                                </div>
+                                <!-- /.panel-heading -->
+                                <div class="panel-body" style="text-align:center;">
+                                    
+                                    <!-- Button trigger modal -->
+                                        {% for estimate in estimatesByUser %}
+                                            
+                                                {% if estimate.state == 0 %}
+                                                    <button class="btn btn-info " data-toggle="modal" data-target="#{{estimate.id}}" title="Demande envoyée" style="margin-bottom: 10px;margin-left: 10px;">
+                                                        Demande adressée le : {{ estimate.dateSended|date('d-m-Y H:i') }}
+                                                    </button>
+                                                {% elseif estimate.state == 1 %}
+                                                    <button class="btn btn-warning " data-toggle="modal" data-target="#{{estimate.id}}" title="Réponse envoyée" style="margin-bottom: 10px;margin-left: 10px;">
+                                                        Demande adressée le : {{ estimate.dateSended|date('d-m-Y H:i') }}
+                                                    </button>
+                                                {% elseif estimate.state == 2 %}
+                                                    <button class="btn btn-success " data-toggle="modal" data-target="#{{estimate.id}}" title="Réservation validée !" style="margin-bottom: 10px;margin-left: 10px;">
+                                                        Demande adressée le : {{ estimate.dateSended|date('d-m-Y H:i') }}
+                                                    </button>
+                                                {% endif %}
+                                                                                                                              
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="{{estimate.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header" style="background-color:rgb(140, 244, 66)">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                                                            <h4 class="modal-title" id="myModalLabel">Mon voyage sur-mesure</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p><strong>Nombre de jours :</strong> {{ estimate.nbrDays }}</p>
+                                                            <p><strong>Date de départ :</strong> {{ estimate.dateDeparture|date('d-m-Y') }}</p>
+                                                            <p><strong>Nombre d'adultes :</strong> {{ estimate.nbrAdults }}<strong> Enfants :</strong> {{ estimate.nbrChildren }}</p>
+                                                            <p>{{estimate.comment|capitalize}}</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Fermer</button>      
+                                                        </div>
+                                                    </div>
+                                                    <!-- /.modal-content -->
+                                                </div>
+                                                <!-- /.modal-dialog -->
+                                            </div>
+                                            
+                                        {% endfor %}
+                                    
+                                </div>
+                                <!-- .panel-body -->
+                            </div>
+                            <!-- /.panel -->
+                        </div>
+                    </div>
+                </div>                                   
+            {% endif %}
+
+            {% if estimatesByUser is not empty %}
+                <div class="row">
+                    <div class="box">
+                        <div class="col-lg-12">
+                            <div class="panel panel-success">
+                                <div class="panel-heading">
+                                    Voir mes réponses
+                                </div>
+                                <!-- /.panel-heading -->
+                                <div class="panel-body" style="text-align:center;">
+                                    <div class="col-md-12">
+                                    <!-- Button trigger modal -->
+                                        {% for estimate in estimatesByUser %}
+                                            {% if estimate.trip is not null and estimate.trip is not empty %}
+                                                {% for trip in estimate.trip %}                                                    
+                                                    <a href="{{ path('front_office_trip_oneTrip',{id:trip.id}) }}" target="_blank"><button class="btn btn-info " title="Réponse reçue" style="margin-bottom: 10px;margin-left: 10px;">
+                                                        Réponse envoyée le : {{ trip.dateCreated|date('d-m-Y H:i') }}
+                                                    </button></a>                                                    
+                                                {% endfor %}
+                                            {% endif %}                                     
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <!-- .panel-body -->
+                            </div>
+                            <!-- /.panel -->
+                        </div>
+                    </div>
+                </div>                                   
+            {% endif %}
+                      
+        </div>
+    
+    {% endblock %}

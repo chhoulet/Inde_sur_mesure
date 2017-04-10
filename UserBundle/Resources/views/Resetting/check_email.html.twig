@@ -1,0 +1,32 @@
+{% extends '::base.html.twig' %}
+
+	{% block title %}Formulaire de login{% endblock %}
+
+	{% block name %}
+            <div class="brand">L'Inde sur mesure</div>
+            <div class="address-bar">94 rue de la Croix Nivert | Paris, 75015 |  Tél: +33 (0)1 45 30 01 47 </div>
+    {% endblock %}
+
+    {% block navbar %}{% endblock %}
+
+    {% block thematic %}{% endblock %}
+
+    {% block body %}
+    	<div  style="background-color:white;margin-left:650px;margin-right:650px;margin-top:160px;">
+    		<div class="col-md-12" style="background-color:white;">
+    		<h3>Consultez votre messagerie</h3>
+    			<small>cliquez sur le lien pour activer votre nouveau mot de passe</small>	
+				{% block fos_user_content %}
+					<p>{{ 'resetting.check_email'|trans({'%email%': email}) }}</p>
+				{% endblock fos_user_content %}
+			</div><br>
+           
+		</div>
+    {% endblock %}
+
+    {% block footer %}{% endblock %}
+
+
+
+
+	

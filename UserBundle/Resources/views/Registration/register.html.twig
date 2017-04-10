@@ -1,0 +1,30 @@
+{% extends '::base.html.twig' %}
+
+	{% block title %}Formulaire d'inscription{% endblock %}
+
+	{% block name %}
+            <div class="brand">L'Inde sur mesure</div>
+            <div class="address-bar">94 rue de la Croix Nivert | Paris, 75015 |  Tél: +33 (0)1 45 30 01 47 </div>
+    {% endblock %}
+
+    {% block navbar %}{% endblock %}
+
+    {% block thematic %}{% endblock %}
+
+    {% block body %}
+    	<div style="margin-left:650px;margin-right:650px;margin-top:80px;">
+    		<div class="col-md-12" style="background-color:white;">
+                <div class="col-md-12" style="height:90px;background-color: rgb(130,177,201);margin-bottom:25px;margin-top:10px;">
+                    <h2 style="margin-top:25px;margin-bottom:25px;text-align:center;">Créez votre compte </h2>
+                </div>    			
+		    	{% block fos_user_content %}
+				{% include "FOSUserBundle:Registration:register_content.html.twig" %}
+				{% endblock fos_user_content %}
+			</div>
+		</div>
+    {% endblock %}
+
+    {% block footer %}{% endblock %}
+
+
+

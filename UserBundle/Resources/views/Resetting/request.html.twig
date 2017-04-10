@@ -1,0 +1,45 @@
+{% extends '::base.html.twig' %}
+
+	{% block title %}Formulaire de login{% endblock %}
+
+	{% block name %}
+            <div class="brand">L'Inde sur mesure</div>
+            <div class="address-bar">94 rue de la Croix Nivert | Paris, 75015 |  Tél: +33 (0)1 45 30 01 47 </div>
+    {% endblock %}
+
+    {% block navbar %}{% endblock %}
+
+    {% block thematic %}{% endblock %}
+
+    {% block body %}
+    	<div  style="background-color:white;margin-left:650px;margin-right:650px;margin-top:160px;">
+    		<div class="col-md-12" style="background-color:white;">
+    		<h3>Recevoir un nouveau mot de passe :</h3>		
+				{% block fos_user_content %}
+					<form action="{{ path('fos_user_resetting_send_email') }}" method="POST" class="fos_user_resetting_request">
+					    <div>
+					        {% if invalid_username is defined %}
+					            <p>{{ 'resetting.request.invalid_username'|trans({'%username%': invalid_username}) }}</p>
+					        {% endif %}<br>
+					        <label for="username">{{ 'Username :'|trans }}</label>
+					        <input type="text" id="username" name="username" required="required" />
+					    </div><br><br>
+					    <div>
+					    	<label>Reçevoir mon nouveau mot de passe par mail :</label><br>
+					    	<div style="text-align:center;margin-top:25px;">
+					        	<input type="submit" value="Valider" class="btn btn-success btn-lg"/><br><br>
+					        </div>
+					    </div>
+					</form>
+				{% endblock fos_user_content %}
+			</div><br>
+           
+		</div>
+    {% endblock %}
+
+    {% block footer %}{% endblock %}
+
+
+
+
+	

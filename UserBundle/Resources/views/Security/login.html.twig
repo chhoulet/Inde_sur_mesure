@@ -1,0 +1,30 @@
+{% extends '::base.html.twig' %}
+
+	{% block title %}Formulaire de login{% endblock %}
+
+	{% block name %}
+            <div class="brand">L'Inde sur mesure</div>
+            <div class="address-bar">94 rue de la Croix Nivert | Paris, 75015 |  Tél: +33 (0)1 45 30 01 47 </div>
+    {% endblock %}
+
+    {% block navbar %}{% endblock %}
+
+    {% block thematic %}{% endblock %}
+
+    {% block body %}
+    	<div  style="background-color:white;margin-left:650px;margin-right:650px;margin-top:160px;">
+    		<div class="col-md-12" style="background-color:white;">    		
+				{% block fos_user_content %}
+					{{ include('FOSUserBundle:Security:login_content.html.twig') }}
+				{% endblock fos_user_content %}
+			</div><br>
+            <div style="margin-left:15px;">
+                <a href="{{ path('fos_user_resetting_request') }}">Mot de passe oublié ?</a><br>
+                <a href="{{ path('fos_user_registration_register') }}">Pas encore inscrit ? Créez votre compte pour accéder à nos services !</a>
+            </div>
+		</div>
+    {% endblock %}
+
+    {% block footer %}{% endblock %}
+
+

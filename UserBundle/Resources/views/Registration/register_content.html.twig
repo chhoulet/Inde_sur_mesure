@@ -1,0 +1,16 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+{{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register')}) }}
+    {{ form_row(form.name) }}<br>  
+    {{ form_row(form.firstname) }}<br>    
+    {{ form_row(form.adress) }}<br>    
+    {{ form_row(form.postcode) }}<br>    
+    {{ form_row(form.city) }}<br>    
+    {{ form_row(form.phoneNumber) }}<br>    
+    {{ form_row(form.email) }}<br>    
+    {{ form_row(form.username) }}<br>    
+    {{ form_row(form.plainPassword) }}<br>        
+    <div style="margin-top:25px;margin-bottom:25px;text-align:center;">
+        <input type="submit" value="Enregistrez-vous" class="btn btn-warning btn-lg" />
+    </div>
+{{ form_end(form) }}

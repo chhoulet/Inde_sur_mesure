@@ -1,0 +1,39 @@
+{% extends '::base.html.twig' %}
+
+	{% block title %}Confirmation d'inscription{% endblock %}
+
+	{% block name %}
+           
+    {% endblock %}
+
+    {% block navbar %}{% endblock %}
+
+    {% block thematic %}{% endblock %}
+
+    {% block body %}       
+        <div class="container" style="background-color:white;margin-top:350px;">
+                        
+        	{% block fos_user_content %}
+                <div style="margin-top:25px;margin-bottom:25px;text-align:center;">
+                    <p style="text-align:center;">Bienvenue sur notre site, {{ user.firstname|capitalize ~ ' ' ~ user.name|upper }} !</p><br>
+            		<p style="text-align:center;">Votre compte est créé.</p><br>
+                    <p style="text-align:center;">Vous pouvez dès à présent nous faire part de vos envies et obtenir un devis, ou reservez directement en ligne</p>
+                    <div class="col-md-12">
+                        <div class="col-md-6">
+                            <div style="margin-top:25px;margin-bottom:35px;">
+                                <a href="{{ path('front_office_estimate_create') }}"><button class="btn btn-warning btn-lg">Composez votre séjour</button><a/>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div style="margin-top:25px;margin-bottom:35px;">
+                                <a href="{{ path('front_office_homepage') }}"><button class="btn btn-warning btn-lg">Réservez votre séjour</button><a/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    		{% endblock fos_user_content %}
+
+        </div>
+    {% endblock %}
+
+    {% block footer %}{% endblock %}
