@@ -1,0 +1,50 @@
+front_office_homepage:
+    path:     /
+    defaults: { _controller: FrontOfficeBundle:Homepage:homepage }
+
+# Définition des slots :
+front_office_mentions:
+    path:     /mentions 
+    defaults: { _controller: FrontOfficeBundle:Slots:mentions}
+
+front_office_conditionsgenerales:
+    path:     /conditionsgenerales 
+    defaults: { _controller: FrontOfficeBundle:Slots:conditionsgenerales}
+
+front_office_contact:
+    path:     /contact 
+    defaults: { _controller: FrontOfficeBundle:Slots:contact}
+
+# Définition des Thématiques :
+front_office_thematic_list:
+    path:     /thematic/sidebar/list 
+    defaults: { _controller: FrontOfficeBundle:Thematic:list}
+
+front_office_thematic_oneThematic:
+    path:     /thematic/sidebar/oneThematic/{id}
+    defaults: { _controller: FrontOfficeBundle:Thematic:oneThematic}
+    requirements:
+        id: "[0-9]+"
+
+# Définition des Trip & Descriptions(UnderlineTrip) & Tarifs:
+front_office_trip_oneTrip:
+    path:    /trip/oneTrip/{id}
+    defaults: { _controller: FrontOfficeBundle:Trip:oneTrip}
+    requirements:
+        id: "[0-9]+"
+
+front_office_underlineTrip_oneUnderlineTrip:
+    path:   /UnderlineTrip/oneUnderlineTrip/{id}
+    defaults: { _controller: FrontOfficeBundle:UnderlineTrip:oneUnderlineTrip}
+    requirements:
+        id: "[0-9]+"
+
+front_office_trip_price_show:
+    path:   /trip_price/show/{id}
+    defaults: { _controller: FrontOfficeBundle:Price:show}
+    requirements:
+        id: "[0-9]+"
+
+front_office_estimate_create:
+    path:    /estimate/create 
+    defaults: { _controller: FrontOfficeBundle:Estimate:create}

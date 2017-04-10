@@ -1,0 +1,75 @@
+{% extends '::base.html.twig' %}
+
+	{% block title %}Composer son voyage{% endblock %}
+
+	{% block body %}
+
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12" style="background-color:white;margin-bottom: 45px;margin-top:45px;">
+					<h2 style="text-align: center;">Décrivez-nous votre voyage</h2>
+
+							{% if app.user is not null %}
+								{{ form_start(form)}}
+								<div class="col-md-12">
+									{{ form_label(form.dateDeparture) }}<br>
+				    				{{ form_errors(form.dateDeparture) }}
+				    				{{ form_widget(form.dateDeparture) }}<br><br>
+				    			</div>
+								<div class="col-md-4">
+									{{ form_row(form.nbrDays)}}<br>
+				    			</div>
+				    			<div class="col-md-4">
+									{{ form_row(form.nbrAdults)}}<br>
+								</div>
+								<div class="col-md-4">
+									{{ form_row(form.nbrChildren)}}<br>
+								</div>
+									{{ form_row(form.comment)}}<br>						
+								<div style="margin-bottom: 25px;margin-top:25px;text-align:center;">
+									{{ form_end(form)}}
+								</div>
+							{% else %}	
+								<div style="margin-bottom: 25px;margin-top:25px;text-align:center;">
+									<a href="{{ path('fos_user_security_login') }}"><button style="margin-bottom: 25px;margin-top:25px;text-align:center;" class="btn btn-info">Connectez-vous !</button></a>
+									<a href="{{ path('fos_user_registration_register') }}"><button style="margin-bottom: 25px;margin-top:25px;text-align:center;" class="btn btn-warning">Pas encore inscrit ? Créez votre compte pour obtenir un devis</button></a>
+								</div>								
+							{% endif %}
+				</div>
+			</div>
+
+			<div class="row">
+	            <div class="box">
+	                <div class="col-lg-12">
+	                    <hr>
+		                    <h2 class="intro-text text-center">Regardez nos prochains
+		                        <strong>départs :</strong>
+		                    </h2>
+	                    <hr>
+	                    {% for trip in trips %}
+	                    	{% if trip.brochure is not null %}
+			                   	<a href="{{ asset('bundles/framework/brochures/' ~ trip.brochure) }}" title="Voir le document PDF" target="_blank">
+				                   	<div class="col-md-4">
+				                    	{% for img in trip.image %}
+				                    		<img class="img-responsive img-border img-full" src="{{ asset('bundles/framework/images/' ~ img.filename) }}" alt="" style="height:175px;width:190px;margin-top:20px;">
+				                    	{% endfor %}
+				                    	{{ trip.title|upper }}      {{ trip.place|title }}
+				                    </div>
+				                </a>
+			            	{% else %}
+				                <a href="{{ path('front_office_trip_oneTrip',{id:trip.id}) }}" title="Détail du séjour">
+				                	<div class="col-md-4">
+				                    	{% for img in trip.image %}
+				                    		<img class="img-responsive img-border img-full" src="{{ asset('bundles/framework/images/' ~ img.filename) }}" alt="" style="height:175px;width:190px;margin-top:20px;">
+				                    	{% endfor %}
+				                    	{{ trip.title|upper }}     {{ trip.place|title }}
+				                    </div>
+				                </a>
+				            {% endif %}
+	                    {% endfor %}	                    
+	                </div>
+	            </div>
+	        </div>
+		</div>
+
+	{% endblock %}

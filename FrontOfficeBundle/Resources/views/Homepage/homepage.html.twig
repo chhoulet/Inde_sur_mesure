@@ -1,0 +1,161 @@
+{% extends '::base.html.twig' %}
+
+	{% block body %}		
+
+		<div class="container">
+
+	    	{% for message in app.session.flashbag.get('mail') %}
+	    		<div id="flash">
+	    			{{ message }}	
+	    		</div>
+	    	{% endfor %}
+
+	    	{% for mess in app.session.flashBag.get('messageSucced') %}
+            	<div id="flash">
+            		{{ mess }}
+            	</div>
+            {% endfor %}
+
+	        <div class="row">
+	            <div class="box">
+	                <div class="col-lg-12 text-center">
+	                    <div id="carousel-example-generic" class="carousel slide">
+	                        <!-- Indicators -->
+	                        <ol class="carousel-indicators hidden-xs">
+	                            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+	                            <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+	                            <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+	                        </ol>
+
+	                        <!-- Wrapper for slides -->
+	                        <div class="carousel-inner" style="height:450px;width:1115px;">
+	                            <div class="item active">
+	                                <img class="img-responsive img-full" src="{{ asset('bundles/framework/images/taj.jpg') }}" alt="">
+	                            </div>
+	                            <div class="item">
+	                                <img class="img-responsive img-full" src="{{ asset('bundles/framework/images/palais.jpg') }}" alt="">
+	                            </div>
+	                            <div class="item">
+	                                <img class="img-responsive img-full" src="{{ asset('bundles/framework/images/people.jpg') }}" alt="">
+	                            </div>
+	                        </div>
+
+	                        <!-- Controls -->
+	                        <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+	                            <span class="icon-prev"></span>
+	                        </a>
+	                        <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+	                            <span class="icon-next"></span>
+	                        </a>
+	                    </div>
+	                    <h2 class="brand-before">
+	                        <small>Venez découvrir les </small>
+	                    </h2>
+	                    <h1 class="brand-name">splendeurs de l'Inde</h1>
+	                    <hr class="tagline-divider">
+	                    <h2>
+	                        <small>Avec
+	                            <strong>Orient Services</strong>
+	                        </small>
+	                    </h2>
+	                </div>
+	            </div>
+	        </div>
+
+	        <div class="row">
+	            <div class="box">
+	                <div class="col-lg-12" style="text-align:justify;">
+	                    <hr>
+	                    {% if listArticles is not null %}
+	                    	{% for article in listArticles %}
+			                    <h2 class="intro-text text-center">			                        
+		                        	{% if article.title is not null %}
+		                        		<strong>{{ article.title|upper }}</strong>
+		                        	{% endif %}
+                        			{% if article.underTitle is not null %}
+                        				{{ article.underTitle|capitalize }}
+                        			{% endif %}			                        	
+			                    </h2>
+			                    <hr>
+			                    <p>{{ article.text1 }}</p>			                     
+                                <p>
+                                    {% if article.text1 is not null %}
+                                        {{ article.text1|capitalize }}
+                                    {% endif %}
+                                </p>
+                                <p>
+                                    {% if article.text2 is not null %}
+                                        {{ article.text2|capitalize }}
+                                    {% endif %}
+                                </p>
+                                <p>
+                                    {% if article.text3 is not null %}
+                                        {{ article.text3|capitalize }}
+                                    {% endif %}
+                                </p>
+                                <p>
+                                    {% if article.text4 is not null %}
+                                        {{ article.text4|capitalize }}
+                                    {% endif %}
+                                </p>
+			                {% endfor %}
+			            {% endif %}
+	                </div>
+	            </div>
+	        </div>
+
+	        <div class="row">
+	            <div class="box">
+	                <div class="col-lg-12">
+	                    <hr>
+		                    <h2 class="intro-text text-center">Regardez nos prochains
+		                        <strong>départs :</strong>
+		                    </h2>
+	                    <hr>
+	                    {% for trip in trips %}	                    
+	                    	{% if trip.brochure is not null %}
+			                   	<a href="{{ asset('bundles/framework/brochures/' ~ trip.brochure) }}" title="Voir le document PDF" target="_blank">
+				                   	<div class="col-md-4">
+				                    	{% for img in trip.image %}
+				                    		<img class="img-responsive img-border img-full" src="{{ asset('bundles/framework/images/' ~ img.filename) }}" alt="" style="height:185px;width:190px;margin-top:20px;">
+				                    	{% endfor %}
+				                    	{{ trip.title|upper }}      {{ trip.place|title }}
+				                    </div>
+				                </a>
+			            	{% else %}
+				                <a href="{{ path('front_office_trip_oneTrip',{id:trip.id}) }}" title="Détail du séjour">
+				                	<div class="col-md-4">
+				                    	{% for img in trip.image %}
+				                    		<img class="img-responsive img-border img-full" src="{{ asset('bundles/framework/images/' ~ img.filename) }}" alt="" style="height:185px;width:190px;margin-top:20px;">
+				                    	{% endfor %}
+				                    	{{ trip.title|upper }}     {{ trip.place|title }}<br>				                    	
+				                    </div>
+				                </a>
+				            {% endif %}
+	                    {% endfor %}	                    
+	                </div>
+	            </div>
+	        </div>
+
+	        <div class="row">
+	            <div class="box">
+	                <div class="col-lg-12" style="text-align:center;">
+	                    <hr>
+		                    <h2 class="intro-text text-center">Enregistrez-vous à notre
+		                        <strong>Newsletter</strong>
+		                    </h2>
+	                    <hr>
+	                    
+	                    <hr class="visible-xs">
+	                    <div class="col-md-4">{{ form_start(form) }} {{ form_row(form.email) }}</div>
+	                    <div class="col-md-4" style="margin-top:26px;">{{ form_row(form.save) }}</div>
+	                    <div class="col-md-4" style="margin-top:26px;">{{ form_end(form) }}</div>
+	                </div>
+	            </div>
+	        </div>
+
+	    </div>
+		<!-- /.container -->
+	    	
+
+	{% endblock %}

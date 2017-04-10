@@ -1,0 +1,6 @@
+services:
+    front_office_mail_service:
+        class: FrontOfficeBundle\Services\MailService
+        arguments: ["@mailer"]
+
+   

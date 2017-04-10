@@ -1,0 +1,55 @@
+{% extends '::base.html.twig' %}
+
+	{% block title %}Conditions Générales d'utilisation{% endblock %}	
+
+	{% block body %}
+
+		<div class="container">
+
+	        <div class="row">
+	            <div class="box">
+	                <div class="col-lg-12">
+	                    <hr>
+	                    {% if listArticles is not null %}
+	                    	{% for article in listArticles %}
+			                    <h2 class="intro-text text-center">			                        
+		                        	{% if article.title is not null %}
+		                        		<strong>{{ article.title|upper }}</strong>
+		                        	{% else %}
+		                        		<strong>Conditions Générales de Vente</strong>
+		                        	{% endif %}
+                        			{% if article.underTitle is not null %}
+                        				{{ article.underTitle|capitalize }}
+                        			{% endif %}			                        	
+			                    </h2>
+			                    <hr>
+			                    <p>{{ article.text1 }}</p>			                     
+                                <p>
+                                    {% if article.text1 is not null %}
+                                        {{ article.text1|capitalize }}
+                                    {% endif %}
+                                </p>
+                                <p>
+                                    {% if article.text2 is not null %}
+                                        {{ article.text2|capitalize }}
+                                    {% endif %}
+                                </p>
+                                <p>
+                                    {% if article.text3 is not null %}
+                                        {{ article.text3|capitalize }}
+                                    {% endif %}
+                                </p>
+                                <p>
+                                    {% if article.text4 is not null %}
+                                        {{ article.text4|capitalize }}
+                                    {% endif %}
+                                </p>
+			                {% endfor %}
+			            {% endif %}
+	                </div>
+	            </div>
+	        </div>
+
+	    </div>
+
+	{% endblock %}

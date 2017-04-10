@@ -1,0 +1,169 @@
+{% extends '::base.html.twig' %}
+
+	{% block title %}Tarifs{% endblock %}
+
+	{% block body %}
+
+		<div class="container">
+			<div class="row">
+				{% for message in app.session.flashBag.get('NotUnique') %}     	           
+					<div id="flash">{{ message }}</div>
+				{% endfor %}
+				
+	            <div class="box">
+	                <div class="col-md-12">
+	                    <hr>
+	                    <h2 class="intro-text text-center">
+	                        <strong>{{ trip.title|upper}}</strong>
+	                    </h2>
+	                    <hr>
+	                </div>	                
+
+	                <div class="col-md-12">				            
+		            	<div class="row">                    
+	                        <div class="table-responsive">
+	                            <table class="table table-bordered table-hover table-striped">
+	                                <thead>
+	                                    <tr>
+	                                        <th>Catégorie</th>
+	                                        <th>Prix personne seule</th>
+	                                        <th>Prix base double</th>				                                       
+	                                    </tr>
+	                                </thead>
+	                                <tbody>
+	                                	{% for price in  prices %}	           										           
+		                                    <tr class="warning">
+		                                        <td>{{ price.category|capitalize }}</td>
+		                                        <td>{{ price.single }}</td>
+		                                        <td>{{ price.couple }}</td>					                                        
+		                                    </tr>
+										{% endfor %}						            
+	                                </tbody>
+	                            </table>
+	                        </div>			                              
+	                    </div>			                   
+		            </div>						               							
+
+		            <hr>		             
+
+		            <div class="col-md-12" style="margin-bottom:35px;">
+			            <div class="row"> 
+			                <div class="panel panel-yellow">
+			                    <div class="panel-heading" style="background-color:rgb(72,234,231);">
+			                       <h4>Commentaire tarifaire</h4>
+			                    </div>
+			                    <div class="panel-body" style="background-color:rgb(250,242,204);">                       			               
+									{% for arti in trip.article %}
+										{% if arti.text1 is not null and arti.text1 is not empty %}													
+								            <p>
+								            	{% if arti.underTitle is not null %}
+								            		{{ arti.title|upper }}
+								            	{% endif %}
+								            </p>
+						                    <p>
+						                        {% if arti.underTitle is not null %}
+						                            {{ arti.underTitle|capitalize }}
+						                        {% endif %}
+						                    </p>
+						                    <p>				                        
+						                        {{ arti.text1|capitalize }}				                        
+						                    </p>
+						                    <p>
+						                        {% if arti.text2 is not null %}
+						                            {{ arti.text2|capitalize }}
+						                        {% endif %}
+						                    </p>
+						                    <p>
+						                        {% if arti.text3 is not null %}
+						                            {{ arti.text3|capitalize }}
+						                        {% endif %}
+						                    </p>
+						                    <p>
+						                        {% if arti.text4 is not null %}
+						                            {{ arti.text4|capitalize }}
+						                        {% endif %}
+						                    </p>					                    
+							            {% else %}
+							            	<p>Aucun commentaire pour ces tarifs</p>
+							            {% endif %}					    						    													
+								    {% endfor %}	
+			                    </div>                   
+			                </div>
+		                </div>
+	           		</div>
+
+            		<hr/>
+
+            		{% if app.user is not null %}
+            			{% if affich == 1 %}
+				            <div class="col-md-12">
+				            	<hr>
+				                    <h2 class="intro-text text-center">
+				                        <strong>Réserver ce séjour</strong>
+				                    </h2>
+				                <hr>			           
+					            	<div class="row">
+					            		<div class="col-md-6">
+					            			{{ form_start(form) }}                
+							            	{{ form_row(form.nbrAdults) }}					            	
+							            </div>
+							            <div class="col-md-6">						            		            		
+							            	{{ form_row(form.nbrChildren) }}
+							            </div>			            		
+					            		<div class="col-md-12">
+							            	{{ form_row(form.comment) }}				            						           			
+							            </div>                        
+				                    </div>			                              
+				            </div>
+		            			            
+				        	<div class="col-md-12">			            
+				            	<div class="row">                    
+				                    <div class="table-responsive" style="margin-top:25px;">
+				                        <table class="table table-bordered table-hover table-striped">
+				                            <thead>
+				                                <tr>
+				                                    <th>Catégorie</th>
+				                                    <th>Prix personne seule</th>
+				                                    <th>Prix couple</th>
+				                                    <th>Nombre de chambres pour pers seule</th>			                                    
+				                                    <th>Nombre de chambres pour couple</th>			                                    
+				                                </tr>
+				                            </thead>
+				                            <tbody>
+				                            	{% for pri in form.price %}	           										           
+				                                    <tr style="background-color:rgb(250,242,204);">
+				                                        <td>{{ form_widget(pri.category) }}</td>
+				                                        <td>{{ form_widget(pri.single) }}</td>
+				                                        <td>{{ form_widget(pri.couple) }}</td>
+				                                        <td>{{ form_widget(pri.numberRoomsSingle) }}</td>                             
+				                                        <td>{{ form_widget(pri.numberRoomsCouple) }}</td>                                      
+				                                    </tr>
+												{% endfor %}						            
+				                            </tbody>
+				                        </table>
+				                       
+				                        <div style="text-align:center;margin-top:25px;">				                        	
+			                        		{{ form_label(form.accepted) }}
+			                        		<div style="margin-left:25px;margin-bottom:25px;">
+			                        			{{ form_widget(form.accepted) }}
+			                        		</div>
+			                        		<div style="margin-left:25px;margin-bottom:25px;">
+			                        			{{ form_end(form) }}
+			                        		</div>
+				                        </div>
+				                    </div>			                              
+				                </div>			                   
+					        </div>
+					    {% endif %}
+                	{% else %}
+                		<div style="text-align:center;">
+                			<a href="{{ path('fos_user_security_login') }}" title="Se connecter à son compte client"><button class="btn btn-success">Connectez-vous pour réserver</button></a>
+                			<a href="{{ path('fos_user_registration_register') }}" title="Créer son compte client"><button class="btn btn-info">Pas encore inscrit ? Créez votre compte pour réserver</button></a>
+                		</div>
+                	{% endif %}	                            	
+
+		        </div>
+    		</div>
+    	</div>
+
+	{% endblock %}

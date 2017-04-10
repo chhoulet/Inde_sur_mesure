@@ -1,0 +1,115 @@
+{% extends '::base.html.twig' %}
+
+	{% block title %}{{ oneTrip.title|upper }}{% endblock %}
+
+	{% block body %}
+
+		<div class="container">
+            <div class="row">
+                
+                {% for messa in app.session.flashBag.get('resa') %}
+                    <div id="flash">
+                        {{ messa }}
+                    </div>
+                {% endfor %}
+               
+                <div class="box" style="text-align:justify;">
+                    <div class="col-lg-12">
+                        <hr>
+                        <h2 class="intro-text text-center">
+                            <strong>{{ oneTrip.title|upper }}</strong>
+                        </h2>
+                        <hr>
+                         <h2 class="intro-text text-center">
+    						<div class="col-md-6">
+                            	<strong>{{ oneTrip.place|upper }}</strong>
+                           	</div>
+    						<div class="col-md-6">
+    							<strong>{{ oneTrip.period|upper }}</strong>
+                            </div>
+                        </h2>
+                        <hr/>
+                    </div>
+                    <div class="col-md-12" style="margin-top:25px;">
+                    	{% for img in oneTrip.image %}
+                        	<img class="img-responsive img-border img-full" src="{{ asset('bundles/framework/images/' ~ img.filename )}}" alt="" style="height:550px;"><br>
+                        {% endfor %}                	
+                    </div>
+                    <div class="col-md-12">
+                        <p>{{ oneTrip.description }}</p>
+                        <p><strong>A partir du : </strong>{{ oneTrip.dateBegining|date('d-m-Y') }}</p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+
+        <div class="row" style="margin-top:25px;text-align:justify;">
+            <div class="box">
+                <div class="col-md-12">
+                    <hr>
+                    <h2 class="intro-text text-center">
+                        <strong>{{ oneTrip.title|title }}</strong>
+                    </h2>
+                    <hr/>
+                </div>
+
+	                {% for img in oneTrip.image %}
+	                	{% if img.filename1 is not null and img.filename2 is not null %}
+			                <div class="col-sm-6 text-center">
+			                    <img class="img-responsive" src="{{ asset('bundles/framework/images/' ~ img.filename1)}}" alt="" style="height:250px;width:515px;"><br>
+			                    {% if oneTrip.comment1 is not null %}
+				                    <p>{{ oneTrip.comment1 }}</p>
+			                    {% endif %}
+			                </div>
+			                <div class="col-sm-6 text-center">
+			                    <img class="img-responsive" src="{{ asset('bundles/framework/images/' ~ img.filename2)}}" alt="" style="height:250px;width:515px;"><br>
+			                    {% if oneTrip.comment2 is not null %}
+				                    <p>{{oneTrip.comment2 }}</p>
+			                    {% endif %}
+			                </div>
+			            {% endif %}
+
+			            {% if img.filename1 is not null and img.filename2 is null %}
+			                <div class="col-sm-12 text-center">
+			                    <img class="img-responsive" src="{{ asset('bundles/framework/images/' ~ img.filename1)}}" alt="" style="height:250px;width:515px;margin-left:300px;"><br>
+			                    {% if oneTrip.comment1 is not null %}
+				                    <p>{{ oneTrip.comment1 }}</p>
+			                    {% endif %}
+			                </div>
+			            {% endif %}
+			            <hr/>
+			        {% endfor %}
+
+                <div class="clearfix"></div>
+                    {% if oneTrip.public == true %}
+                        {% if oneTrip.underlineTrip is not null and  oneTrip.underlineTrip is not empty %}
+                            <div class="col-md-6" style="text-align:center;margin-top:29px;">
+                                <a href="{{ path('front_office_underlineTrip_oneUnderlineTrip',{id:oneTrip.id}) }}"><button class="btn btn-warning btn-lg">Voir le détail du voyage</button></a>
+                            </div>
+                            <div class="col-md-6" style="text-align:center;margin-top:29px;">
+                                <a href="{{ path('front_office_trip_price_show',{id:oneTrip.id}) }}"><button class="btn btn-info btn-lg">Voir les tarifs</button></a>
+                            </div>
+                        {% else %}
+                            <div class="col-md-12" style="text-align:center;margin-top:29px;">
+                                <a href="{{ path('front_office_trip_price_show',{id:oneTrip.id}) }}"><button class="btn btn-info btn-lg">Voir les tarifs</button></a>
+                            </div>
+                    	{% endif %}
+                    {% else %}
+                        {% if oneTrip.underlineTrip is not null and oneTrip.underlineTrip is not empty %}
+                            <div class="col-md-6" style="text-align:center;margin-top:29px;">
+                                <a href="{{ path('front_office_underlineTrip_oneUnderlineTrip',{id:oneTrip.id}) }}"><button class="btn btn-warning btn-lg">Voir le détail du voyage</button></a>
+                            </div>
+                            <div class="col-md-6" style="text-align:center;margin-top:29px;">
+                               <button class="btn btn-info btn-lg">Prix global proposé : {{ oneTrip.globalPrice }} €</button>
+                            </div>
+                        {% else %}
+                            <div class="col-md-12" style="text-align:center;margin-top:29px;">
+                                <button class="btn btn-info btn-lg">Prix global proposé : {{ oneTrip.globalPrice }} €</button>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {% endblock %}
