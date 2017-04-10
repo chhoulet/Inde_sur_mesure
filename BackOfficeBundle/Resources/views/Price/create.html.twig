@@ -1,0 +1,129 @@
+{% extends '::baseAdmin.html.twig' %}
+
+	{% block title %}Prix{% endblock %}
+
+	{% block body %}
+		
+		<div class="col-md-12">
+
+		{% for trip in app.session.flashBag.get('under') %}
+            <div id="flash">
+                <p>{{ trip }}</p>
+            </div>
+        {% endfor %}
+
+        {% for message in app.session.flashBag.get('deletePrice') %}
+            <div id="flash">
+                <p>{{ message }}</p>
+            </div>
+        {% endfor %}
+
+			<h1>Prix : {{ trip.title}}</h1>
+			{{ form_start(form) }}
+			{{form_row(form.category) }}
+			{{form_row(form.single) }}
+			{{form_row(form.couple) }}
+
+				
+			<div class="col-md-6" style="text-align:center;margin-top:35px;">{{form_row(form.Valider) }}</div>
+			<div class="col-md-6" style="text-align:center;margin-top:35px;">{{ form_end(form) }}</div>			
+		
+			<hr>
+
+			<div class="row">
+				<div class="col-md-12">
+					<h2>Commentaire tarifaire :</h2>
+						{{ form_start(form) }}
+						{{form_row(formArticle.title) }}<br>
+						{{form_row(formArticle.underTitle) }}<br>
+						{{form_row(formArticle.text1) }}	<br>				
+						{{form_row(formArticle.text2) }}	<br>				
+						{{form_row(formArticle.text3) }}	<br>				
+						{{form_row(formArticle.text4) }}	<br>													
+				</div>				
+				<div class="col-md-12" style="text-align:center;margin-top:35px;margin-bottom:35px;">{{ form_end(formArticle) }}</div>
+			</div>
+
+			{% if trip.price is not null %}
+				<div class="col-md-12">
+		            <h2>Liste des prix </h2>
+			            <div class="table-responsive">
+			                <table id="myTable" class="table table-bordered table-hover table-striped">
+			                    <thead>
+			                        <tr>
+			                            <th style="background-color:rgb(240,173,78);color:white;">Categorie</th>
+			                            <th style="background-color:rgb(240,173,78);color:white;">Personne seule</th>		                            
+			                            <th style="background-color:rgb(240,173,78);color:white;">Chambre double</th>
+			                            <th style="background-color:rgb(240,173,78);color:white;">Actions</th>
+			                        </tr>
+			                    </thead>
+			                    <tbody>
+				                    {% for pric in trip.price %}
+				                        <tr>
+				                            <td>{{ pric.category|capitalize }}</td>
+				                            <td>{{ pric.single }} €</td>		                            	                          
+				                            <td>{{ pric.couple }} €</td>		                            	                   	 
+				                            <td><a href="{{ path('back_office_price_delete',{id:pric.id}) }}" onclick="return(confirm('Etes-vous sûr de vouloir supprimer ce prix ?'))"><button class="btn btn-danger">Supprimer</button></a></td>    	                   	 
+				                        </tr>
+				                    {% endfor %}	                       
+			                    </tbody>
+			                </table><br><br>
+			            </div>
+			    </div>
+			{% endif %}
+
+			<div class="col-lg-12">
+                <div class="panel panel-yellow">
+                    <div class="panel-heading">
+                       <h4>Commentaire tarifaire</h4>
+                    </div>
+                    <div class="panel-body">                       			               
+						{% for arti in trip.article %}
+							{% if arti.text1 is not null and arti.text1 is not empty %}														
+					            <p>
+					            	{% if arti.title is not null %}
+					            		<h4>{{ arti.title|upper }}</h4>
+					            	{% endif %}
+					            </p>
+			                    <p>
+			                        {% if arti.underTitle is not null %}
+			                            {{ arti.underTitle|capitalize }}
+			                        {% endif %}
+			                    </p>
+			                    <p>				                        
+			                        {{ arti.text1|capitalize }}				                        
+			                    </p>
+			                    <p>
+			                        {% if arti.text2 is not null %}
+			                            {{ arti.text2|capitalize }}
+			                        {% endif %}
+			                    </p>
+			                    <p>
+			                        {% if arti.text3 is not null %}
+			                            {{ arti.text3|capitalize }}
+			                        {% endif %}
+			                    </p>
+			                    <p>
+			                        {% if arti.text4 is not null %}
+			                            {{ arti.text4|capitalize }}
+			                        {% endif %}
+			                    </p>
+			                    <div class="col-lg-12">
+				                    <div class="col-md-6" style="text-align:center;margin-top:25px;margin-bottom:25px;">
+				                    	<a href="{{ path('back_office_article_updateArticle',{id:arti.id}) }}"><button class="btn btn-warning">Editer ce commentaire</button></a>
+				                    </div>		               
+				                    <div class="col-md-6" style="text-align:center;margin-top:25px;margin-bottom:25px;">
+				                    	<a href="{{ path('back_office_article_deleteArticle',{id:arti.id}) }}"><button class="btn btn-danger">Supprimer ce commentaire</button></a>
+				                    </div>		               
+				                </div>
+				            {% else %}
+				            	<p>Aucun commentaire pour ces tarifs</p>
+				            {% endif %}					    						    													
+					    {% endfor %}	
+                    </div>                   
+                </div>
+            </div>
+		
+
+		</div>
+	{% endblock %}

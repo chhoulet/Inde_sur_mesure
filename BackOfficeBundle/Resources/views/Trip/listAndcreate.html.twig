@@ -1,0 +1,198 @@
+{% extends '::baseAdmin.html.twig' %}
+
+    {% block title %}
+         {% if affich == 1 %}
+            Gestion des Voyages catalogue
+        {% else %}
+            Mettre à jour ce voyage
+        {% endif %}
+    {% endblock %}
+
+	{% block body %}
+
+            <div class="col-lg-12">
+		
+            {% for trip in app.session.flashBag.get('Trip') %}
+                <div id="flash">
+                    <p>{{ trip }}</p>
+                </div>
+            {% endfor %}
+
+            {% for tripna in app.session.flashBag.get('TripName') %}
+                <div id="flash">
+                    <p>{{ tripna }}</p>
+                </div>
+            {% endfor %}
+
+            {% for tri in app.session.flashBag.get('under') %}
+                <div id="flash">
+                    <p>{{ tri }}</p>
+                </div>
+            {% endfor %}
+
+            {% for message in app.session.flashBag.get('active') %}
+                <div id="flash">
+                    <p>{{ message }}</p>
+                </div>
+            {% endfor %}
+
+            {% for messag in app.session.flashBag.get('unactive') %}
+                <div id="flash">
+                    <p>{{ messag }}</p>
+                </div>
+            {% endfor %}
+
+            {% for messa in app.session.flashBag.get('actived') %}
+                <div id="flash">
+                    <p>{{ messa }}</p>
+                </div>
+            {% endfor %}
+
+            {% for mes in app.session.flashBag.get('againactive') %}
+                <div id="flash">
+                    <p>{{ mes }}</p>
+                </div>
+            {% endfor %}
+
+            {% for upda in app.session.flashBag.get('updateTrip1') %}
+                <div id="flash">
+                    <p>{{ upda }}</p>
+                </div>
+            {% endfor %}        
+
+            {% for updele in app.session.flashBag.get('deleteTrip') %}
+                <div id="flash">
+                    <p>{{ updele }}</p>
+                </div>
+            {% endfor %}
+            
+            {% if affich == 1 %}
+                <h2>Gestion des Voyages</h2>
+            {% else %}                
+                <h2>Mise à jour : {{ one.title|capitalize }}</h2>
+            {% endif %}
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                {% if affich == 1 %}
+                    <h3 class="panel-title">Ajouter un voyage</h3>
+                {% else %}
+                    <h3 class="panel-title">Mettre à jour ce voyage</h3>
+                {% endif %}
+                </div>
+                <div class="panel-body" id="modalHead" style="text-align:center;">
+                   <a href="#" data-toggle="modal"   data-target="#basicModal"><button class="btn btn-warning">Ouvrir le formulaire</button></a>
+                </div>
+            </div>
+
+            <div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                        <h4 class="modal-title" id="myModalLabel">Inde sur mesure</h4>
+                        </div>
+                        <div class="modal-body">
+                            <h3></h3>                                    
+                            {{ form_start(form) }}
+                            {{ form_row(form.title) }}
+                            {{ form_row(form.period) }}
+                            {{ form_row(form.place) }}
+                            {{ form_row(form.dateBegining) }}
+                            {{ form_row(form.dateEnding) }}
+                            {{ form_row(form.description) }}
+                            {{ form_row(form.comment1) }}
+                            {{ form_row(form.comment2) }}
+                            {{ form_row(form.numberDays) }}
+                            {{ form_row(form.thematic) }}
+                            {% if one.public == 0 %}                                                                  
+                                {{ form_row(form.globalPrice) }}
+                            {% endif %}
+                            {{ form_row(form.brochure) }}
+                                <ul>
+                                    {% for ima in form.image %}
+                                        <li>{{ form_row(ima.filename) }}</li>
+                                        <li>{{ form_row(ima.filename1) }}</li>
+                                        <li>{{ form_row(ima.filename2) }}</li>
+                                    {% endfor %}
+                                </ul>                                                                          
+                        </div>
+                        <div class="modal-footer" id="basicModal"> 
+                            <div class="col-md-12">
+                                <div class="col-md-4" style="text-align:center;">{{ form_row(form.Valider) }}</div>
+                                <div class="col-md-8" style="text-align:left;">{{ form_end(form)}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>                                           
+
+            <hr/>         
+       
+            <h2>Liste des Voyages  </h2>
+                <div class="table-responsive">
+                    <table id="myTable" class="table table-bordered table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>Titre</th>
+                                <th>Commentaire Photo N° 2</th>
+                                <th>Commentaire Photo N° 3</th>
+                                <th>Description N°1</th>
+                                <th>Date de début</th>
+                                <th>Date de fin</th>
+                                <th>Thematique</th>
+                                <th>Brochure</th>
+                                <th>Images</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for tem in listTrips %}
+                                <tr>
+                                    <td>{{ tem.title|upper }}</td>
+                                    <td>{{ tem.comment1|capitalize }}</td>
+                                    <td>{{ tem.comment2|capitalize }}</td>
+                                    <td>{{ tem.description|capitalize }}</td>
+                                    <td>{{ tem.dateBegining|date('d-m-Y') }}</td>
+                                    <td>{{ tem.dateEnding|date('d-m-Y') }}</td>
+                                    <td>
+                                        {% if tem.thematic is not null and tem.thematic is not empty %}
+                                            {{ tem.thematic.name|upper }}                            
+                                        {% endif %}
+                                    </td>    
+                                    <td>
+                                        {% if tem.brochure is not null %}
+                                            <a href="{{ asset('bundles/framework/brochures/' ~ tem.brochure) }}" target="_blank">Voir Brochure (PDF)</a>
+                                        {% else %}
+                                            <p>Pas de brochure téléchargée </p>
+                                        {% endif %}
+                                    </td>                            
+                                    <td>
+                                        {% for ima in tem.image %}
+                                            <img src="{{ asset('bundles/framework/images/' ~ ima.filename) }}" alt="" style="height:80px;width:125px;margin-bottom:10px;">
+                                            <img src="{{ asset('bundles/framework/images/' ~ ima.filename1) }}" alt="" style="height:80px;width:125px;margin-bottom:10px;">
+                                            <img src="{{ asset('bundles/framework/images/' ~ ima.filename2) }}" alt="" style="height:80px;width:125px;">
+                                        {% endfor %}
+                                    </td>
+                                    <td>                                        
+                                        {% if tem.active == 1 %}
+                                            <a href="{{ path('back_office_trip_unactive',{id:tem.id, origin:2}) }}" title="Retirer ce voyage de la liste des voyages disponibles"><button class="btn btn-danger" style="margin-top:15px;">Désactiver</button></a>
+                                        {% else %}
+                                            <a href="{{ path('back_office_trip_actived',{id:tem.id, origin:2}) }}" title="Ajouter ce voyage à la liste des voyages disponibles"><button class="btn btn-success" style="margin-top:15px;">Activer</button>
+                                        {% endif %}
+                                        <a href="{{ path('back_office_trip_delete',{id:tem.id, originClick:1}) }}" title="Supprimer ce voyage" onclick="return(confirm('Etes-vous sûr de vouloir supprimer ce voyage ?'))"><button class="btn btn-danger" style="margin-top:15px;">Supprimer ce voyage</button></a>
+                                        <a href="{{ path('back_office_underline_trip_create',{id:tem.id, origin:1}) }}" title="Voir le détail du voyage">  <button class="btn btn-warning" style="margin-top:15px;">Voir/Ajouter Jours</button></a>      
+                                        <a href="{{ path('back_office_trip_one',{id:tem.id, origin:1}) }}" title="Voir le détail de ce séjour"><button class="btn btn-warning" style="margin-top:15px;">Détail</button></a>
+                                        <a href="{{ path('back_office_trip_updated',{id:tem.id, idEstimate:0}) }}" title="Mise à jour du voyage"><button class="btn btn-info" style="margin-top:15px;">Mise à jour de ce voyage</button></a>
+                                        <a href="{{ path('back_office_price_create',{id:tem.id}) }}" title="Voir les prix de ce séjour"><button class="btn btn-info" style="margin-top:15px;">Voir / Editer les prix</button></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}                           
+                        </tbody>
+                    </table>
+                </div>
+        </div>
+       
+	{% endblock %}
+
+
+    

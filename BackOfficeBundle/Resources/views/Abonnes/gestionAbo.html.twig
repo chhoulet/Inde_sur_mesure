@@ -1,0 +1,303 @@
+{% extends '::baseAdmin.html.twig' %}
+
+	{% block title %}Gestion des abonnés{% endblock %}
+
+	{% block body %}
+
+		<div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Gestion des abonnés                     
+                </h1>                
+            </div>
+        </div>
+
+        {% for message in app.session.flashBag.get('admin') %}
+            <div id="flash">
+                <p>{{ message }}</p>
+            </div>
+        {% endfor %}
+
+        {% for messag in app.session.flashBag.get('texts') %}
+            <div id="flash">
+                <p>{{ messag }}</p>
+            </div>
+        {% endfor %}
+
+        {% for messa in app.session.flashBag.get('supp') %}
+            <div id="flash">
+                <p>{{ messa }}</p>
+            </div>
+        {% endfor %}
+
+        {% for mess in app.session.flashBag.get('update') %}
+            <div id="flash">
+                <p>{{ mess }}</p>
+            </div>
+        {% endfor %}
+
+         <div class="col-lg-4 col-md-6">
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-comments fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge">{{ numberinfoMessages }}</div>
+                                <div>{% if(numberinfoMessages > 1) %} Demandes d'Informations reçues {% else %} Demande d'Informations reçue {% endif %}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#">
+                        <div class="panel-footer">
+                            <span class="pull-left"><a href="{{ path('back_office_message_list',{origin:1, affich:1}) }}">Voir la liste</a></span>
+                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+        <div class="col-lg-4 col-md-4">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-support fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">{{ numberAbonnes }}</div>
+                            <div>{% if(numberAbonnes > 1) %} Abonnés à la newsletter {% else %} Abonné à la newsletter {% endif %}</div>
+                        </div>
+                    </div>
+                </div>
+                <a href="#">
+                    <div class="panel-footer">
+                        <span class="pull-left"></span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+
+        <div class="col-lg-4 col-md-4" style="margin-bottom:55px;">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-support fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">{{ nbrUsers }}</div>
+                            <div>{% if(nbrUsers > 1) %} Enregistrés sur le site {% else %} Enregistré sur le site {% endif %}</div>
+                        </div>
+                    </div>
+                </div>
+                <a href="{{ path('back_office_abonnes_list') }}">
+                    <div class="panel-footer">
+                        <span class="pull-left">Voir la liste des abonnés</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+
+		
+        <div class="col-md-12" style="margin-bottom:55px;">
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Gestion des droits d'administration</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-12">
+                        <div class="col-md-6">
+                            {{ form_start(form)}}                            
+                            {{ form_row(form.entity)}}
+                        </div>
+                        <div class="col-md-3" style="text-align:center;">
+                            <div style="margin-top:25px;">
+                                {{ form_row(form.valider)}}
+                            </div>
+                        </div>
+                        <div class="col-md-3" style="text-align:center;">
+                            <div style="margin-top:25px;">
+                                {{ form_end(form)}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12" style="margin-bottom:55px;">
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Gestion des Textes de présentation et des mentions obligatoires</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-12">                       
+                        <div class="col-md-4" style="text-align:center;">
+                            <div style="margin-top:25px;">
+                               <a href="{{ path('back_office_article_create', {origin:1}) }}" title=""><button class="btn btn-success">Créer un texte de présentation</button></a>
+                            </div>
+                        </div>
+                        <div class="col-md-4" style="text-align:center;">
+                            <div style="margin-top:25px;">
+                               <a href="{{ path('back_office_article_create', {origin:2}) }}" title=""><button class="btn btn-success">Créer les Mentions légales</button></a>
+                            </div>
+                        </div>
+                        <div class="col-md-4" style="text-align:center;">
+                            <div style="margin-top:25px;">
+                               <a href="{{ path('back_office_article_create', {origin:3}) }}" title=""><button class="btn btn-success">Créer les Conditions Générales de vente</button></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>          
+
+        <div class="col-md-12" style="margin-bottom:55px;">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <p>Visualiser textes fixes</p>
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-pills">
+                        <li class="active"><a href="#home-pills" data-toggle="tab">Article de présentation</a>
+                        </li>
+                        <li><a href="#profile-pills" data-toggle="tab">Mentions légales</a>
+                        </li>
+                        <li><a href="#mentions-pills" data-toggle="tab">Conditions générales de vente</a>
+                        </li>                                                    
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active" id="home-pills">
+                            {% if articlesPresentation is not null %}
+                                {% for articlePresentation in articlesPresentation %}
+                                    <h4>{{ articlePresentation.title|default('Article de présentation') }}</h4>
+                                    <p>
+                                        {% if articlePresentation.underTitle %}
+                                            {{ articlePresentation.underTitle|capitalize }}
+                                        {% endif %}
+                                    </p>
+                                    <p>
+                                        {% if articlePresentation.text1 is not null %}
+                                            {{ articlePresentation.text1|capitalize }}
+                                        {% endif %}
+                                    </p>
+                                    <p>
+                                        {% if articlePresentation.text2 is not null %}
+                                            {{ articlePresentation.text2|capitalize }}
+                                        {% endif %}
+                                    </p>
+                                    <p>
+                                        {% if articlePresentation.text3 is not null %}
+                                            {{ articlePresentation.text3|capitalize }}
+                                        {% endif %}
+                                    </p>
+                                    <p>
+                                        {% if articlePresentation.text4 is not null %}
+                                            {{ articlePresentation.text4|capitalize }}
+                                        {% endif %}
+                                    </p>
+                                    <div class="col-md-6" style="text-align: center;">
+                                        <a href="{{ path('back_office_article_deleteArticle',{id:articlePresentation.id}) }}"><button class="btn btn-primary" onclick="return(confirm('Etes-vous sûr de vouloir supprimer cet article ?'))" title="Supprimer cet article">Supprimer cet article</button></a>
+                                    </div>
+                                    <div class="col-md-6" style="text-align: center;">
+                                        <a href="{{ path('back_office_article_updateArticle',{id:articlePresentation.id}) }}"><button class="btn btn-primary" title="Mettre à jour cet article">Mettre à jour cet article</button></a>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        <div class="tab-pane fade" id="profile-pills">
+                            {% if articlesMentions is not null %}
+                                {% for articleMentions in articlesMentions %}
+                                    <h4>{{ articleMentions.title|default('Mentions Légales') }}</h4>
+                                    <p>
+                                        {% if articleMentions.underTitle %}
+                                            {{ articleMentions.underTitle|capitalize }}
+                                        {% endif %}
+                                    </p>
+                                    <p>
+                                        {% if articleMentions.text1 is not null %}
+                                            {{ articleMentions.text1|capitalize }}
+                                        {% endif %}
+                                    </p>
+                                    <p>
+                                        {% if articleMentions.text2 is not null %}
+                                            {{ articleMentions.text2|capitalize }}
+                                        {% endif %}
+                                    </p>
+                                    <p>
+                                        {% if articleMentions.text3 is not null %}
+                                            {{ articleMentions.text3|capitalize }}
+                                        {% endif %}
+                                    </p>
+                                    <p>
+                                        {% if articleMentions.text4 is not null %}
+                                            {{ articleMentions.text4|capitalize }}
+                                        {% endif %}
+                                    </p>
+                                    <div class="col-md-6" style="text-align: center;">
+                                        <a href="{{ path('back_office_article_deleteArticle',{id:articleMentions.id}) }}"><button class="btn btn-primary" onclick="return(confirm('Etes-vous sûr de vouloir supprimer cet article ?'))" title="Supprimer cet article">Supprimer cet article</button></a>
+                                    </div>
+                                    <div class="col-md-6" style="text-align: center;">
+                                        <a href="{{ path('back_office_article_updateArticle',{id:articleMentions.id}) }}"><button class="btn btn-primary" title="Mettre à jour cet article">Mettre à jour cet article</button></a>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        <div class="tab-pane fade" id="mentions-pills">
+                            {% if articlesConditions is not null %}
+                                {% for articleConditions in articlesConditions %}
+                                    <h4>{{ articleConditions.title|default('Conditions Générales de vente') }}</h4>
+                                    <p>
+                                        {% if articleConditions.underTitle %}
+                                            {{ articleConditions.underTitle|capitalize }}
+                                        {% endif %}
+                                    </p>
+                                    <p>
+                                        {% if articleConditions.text1 is not null %}
+                                            {{ articleConditions.text1|capitalize }}
+                                        {% endif %}
+                                    </p>
+                                    <p>
+                                        {% if articleConditions.text2 is not null %}
+                                            {{ articleConditions.text2|capitalize }}
+                                        {% endif %}
+                                    </p>
+                                    <p>
+                                        {% if articleConditions.text3 is not null %}
+                                            {{ articleConditions.text3|capitalize }}
+                                        {% endif %}
+                                    </p>
+                                    <p>
+                                        {% if articleConditions.text4 is not null %}
+                                            {{ articleConditions.text4|capitalize }}
+                                        {% endif %}
+                                    </p>
+                                    <div class="col-md-6" style="text-align: center;">
+                                        <a href="{{ path('back_office_article_deleteArticle',{id:articleConditions.id}) }}"><button class="btn btn-primary" onclick="return(confirm('Etes-vous sûr de vouloir supprimer cet article ?'))" title="Supprimer cet article">Supprimer cet article</button></a>
+                                    </div>
+                                    <div class="col-md-6" style="text-align: center;">
+                                        <a href="{{ path('back_office_article_updateArticle',{id:articleConditions.id}) }}"><button class="btn btn-primary" title="Mettre à jour cet article">Mettre à jour cet article</button></a>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}    
+                        </div>                    
+                    </div>
+                </div>
+                <!-- /.panel-body -->
+            </div>            
+        </div>
+
+                   
+    {% endblock %}

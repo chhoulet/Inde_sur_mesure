@@ -1,0 +1,137 @@
+{% extends '::baseAdmin.html.twig' %}
+
+	{% block title %}Gestion des Thématiques{% endblock %}
+
+	{% block body %}
+
+			<div class="col-md-12">
+
+			{% for message in app.session.flashBag.get('succes') %}
+				<div id="flash">{{ message }}</div>
+			{% endfor %}
+
+			{% for messag in app.session.flashBag.get('succesUpdate') %}
+				<div id="flash">{{ messag }}</div>
+			{% endfor %}
+
+			{% for mess in app.session.flashBag.get('succesdelete') %}
+				<div id="flash">{{ mess }}</div>
+			{% endfor %}
+
+			{% for mes in app.session.flashBag.get('succesDesactivate') %}
+				<div id="flash">{{ mes }}</div>
+			{% endfor %}
+
+			{% for acti in app.session.flashBag.get('succesactivate') %}
+				<div id="flash">{{ acti }}</div>
+			{% endfor %}
+
+			<h2>Gestion des Thématiques de Voyage  </h2>
+            <div class="panel panel-success">
+                <div class="panel-heading">
+	                {% if affich == 1 %}
+	                    <h3 class="panel-title">Ajouter une thématique</h3>
+	                {% else %}
+	                	<h3 class="panel-title">Mettre à jour une thématique</h3>
+	                {% endif %}
+                </div>
+                <div class="panel-body" id="modalHead">
+                    <!-- Button trigger modal -->
+					<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal">
+					 	Cliquez ici pour afficher le formulaire
+					</button>
+
+					<!-- Modal -->
+					<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					  <div class="modal-dialog" role="document">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					          <span aria-hidden="true">&times;</span>
+					        </button>
+					        <h4 class="modal-title" id="myModalLabel">
+					        	{% if affich == 1 %}
+				                    Ajouter une thématique
+				                {% else %}
+				                	Mettre à jour une thématique
+				                {% endif %}
+					         </h4>
+					      </div>
+					      <div class="modal-body" style="text-align:left;">
+					        {{ form_start(form) }}
+					        {{ form_row(form.name) }}
+					        {{ form_row(form.underline) }}
+					        {{ form_row(form.underline1) }}
+					        {{ form_row(form.main1) }}
+					        {{ form_row(form.underline2) }}
+					        {{ form_row(form.main2) }}
+						        {% for img in form.image %}
+						        	{{ form_row(img.filename) }}
+						        	{{ form_row(img.filename1) }}
+						        	{{ form_row(img.filename2) }}
+						        {% endfor %}					        
+					      </div>
+					      <div class="modal-footer" id="basicModal">                                   
+                                 {{ form_end(form)}}
+                          </div>					      
+					    </div>
+					  </div>
+					</div>
+                </div>
+            </div>                        
+        </div>
+
+	    <hr/>
+         
+		<div class="col-md-12">
+            <h2>Liste des Thématiques de Voyage</h2>
+	            <div class="table-responsive">
+	                <table id="myTable" class="table table-bordered table-hover table-striped">
+	                    <thead>
+	                        <tr>
+	                            <th>Titre</th>
+	                            <th>Sous-titre</th>
+	                            <th>Sous-titre1</th>
+	                            <th>Description N°1</th>
+	                            <th>Sous-titre2</th>
+	                            <th>Description N°2</th>
+	                            <th>Images</th>
+	                            <th>Actions</th>
+	                        </tr>
+	                    </thead>
+	                    <tbody>
+	                    	{% if listThematics is not null %}
+			                    {% for tem in listThematics %}
+			                        <tr>
+			                            <td>{{ tem.name|upper }}</td>
+			                            <td>{{ tem.underline|capitalize }}</td>
+			                            <td>{{ tem.underline1|capitalize }}</td>
+			                            <td>{{ tem.main1|capitalize }}</td>
+			                            <td>{{ tem.underline2|capitalize }}</td>
+			                            <td>{{ tem.main2|capitalize }}</td>	                           
+			                            <td>
+			                            	{% for ima in tem.image %}
+				                            	<img src="{{ asset('bundles/framework/images/' ~ ima.filename) }}" alt="" style="height:80px;width:125px;margin-bottom:10px;">
+				                            	<img src="{{ asset('bundles/framework/images/' ~ ima.filename1) }}" alt="" style="height:80px;width:125px;margin-bottom:10px;">
+				                            	<img src="{{ asset('bundles/framework/images/' ~ ima.filename2) }}" alt="" style="height:80px;width:125px;">
+			                            	{% endfor %}
+			                            </td>
+			                            <td>
+			                            	<a href="{{ path('back_office_thematic_update',{id:tem.id}) }}" title="Mettre à jour cette thématique"><button class="btn btn-warning" style="margin-bottom:10px;">Mettre à jour</button></a>                 	
+			                            	{% if tem.active == 1 %}
+			                            		<a href="{{ path('back_office_thematic_desactivate',{id:tem.id}) }}" title="Désactiver cette thématique"><button class="btn btn-danger" style="margin-bottom:10px;">Désactiver</button></a>
+			                            	{% else %}
+			                            		<a href="{{ path('back_office_thematic_activate',{id:tem.id}) }}" title="Activer cette thématique"><button class="btn btn-success" style="margin-bottom:10px;">Activer</button></a>
+			                            	{% endif %}
+			                            </td>
+			                        </tr>
+			                    {% endfor %}
+			                {% endif %}	                       
+	                    </tbody>
+	                </table>
+	            </div>
+	    </div>
+       
+
+
+    {% endblock %}

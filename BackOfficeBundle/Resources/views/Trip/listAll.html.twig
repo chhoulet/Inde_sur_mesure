@@ -1,0 +1,120 @@
+{% extends '::baseAdmin.html.twig' %}
+
+	{% block title %}Liste complète des voyages{% endblock %}
+
+	{% block body %}
+
+		<div class="col-md-12">
+
+        {% for trip in app.session.flashBag.get('unactive') %}
+            <div id="flash">
+                <p>{{ trip }}</p>
+            </div>
+        {% endfor %}
+
+        {% for trip in app.session.flashBag.get('actived') %}
+            <div id="flash">
+                <p>{{ trip }}</p>
+            </div>
+        {% endfor %}
+
+        {% for trip in app.session.flashBag.get('againactive') %}
+            <div id="flash">
+                <p>{{ trip }}</p>
+            </div>
+        {% endfor %}           
+			
+            <h2>Liste des Voyages catalogue</h2>
+                <div class="table-responsive">
+                    <table id="myTable" class="table table-bordered table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>Titre</th>
+                                <th>Commentaire Photo N° 2</th>
+                                <th>Commentaire Photo N° 3</th>
+                                <th>Description N°1</th>
+                                <th>Date de début</th>
+                                <th>Date de fin</th>
+                                <th>Thematique</th>
+                                <th>Brochure</th>
+                                <th>Images</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if listAll is not null and listAll is not empty %}
+                                {% for tem in listAll %}
+                                    <tr>
+                                        <td>        
+                                            {% if tem.title is not null %}
+                                                {{ tem.title|upper }}
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if tem.comment1 is not null %}
+                                                {{ tem.comment1|capitalize }}
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if tem.comment2 is not null %}
+                                                {{ tem.comment2|capitalize }}
+                                            {% endif %}
+                                        </td>
+                                        
+                                        <td>
+                                        {% if tem.description is not null %}
+                                            {{ tem.description|capitalize }}
+                                        {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if tem.dateBegining is not null %}
+                                                {{ tem.dateBegining|date('d-m-Y') }}
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if tem.dateEnding is not null %}
+                                                {{ tem.dateEnding|date('d-m-Y') }}
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if tem.thematic is not null %}
+                                                {{ tem.thematic.name|upper }}
+                                            {% endif %}                                                                                   
+                                        </td>
+                                        <td>
+                                            {% if tem.brochure is not null %}
+                                                <a href="{{ asset('bundles/framework/brochures/' ~ tem.brochure) }}" target="_blank">Voir Brochure</a>
+                                            {% else %}
+                                                <p>Pas de brochure téléchargée </p>
+                                            {% endif %}                                                                                   
+                                        </td>
+                                        <td>                                       
+                                            {% if tem.image is not null %}
+                                                {% for ima in tem.image %}
+                                                    <img src="{{ asset('bundles/framework/images/' ~ ima.filename) }}" alt="" style="height:80px;width:125px;margin-bottom:10px;">
+                                                    <img src="{{ asset('bundles/framework/images/' ~ ima.filename1) }}" alt="" style="height:80px;width:125px;margin-bottom:10px;">
+                                                    <img src="{{ asset('bundles/framework/images/' ~ ima.filename2) }}" alt="" style="height:80px;width:125px;">
+                                                {% endfor %}
+                                            {% endif %}
+                                        </td>
+                                        <td>                                        
+                                            <a href="{{ path('back_office_underline_trip_create',{id:tem.id}) }}" title="Voir le détail du voyage"><button class="btn btn-success" style="margin-top:15px;">Voir/Ajouter Jours</button></a>
+                                            <a href="{{ path('back_office_trip_updated',{id:tem.id, idEstimate:0}) }}" title="Mise à jour du voyage"><button class="btn btn-info" style="margin-top:15px;">Mise à jour de ce voyage</button></a>
+                                            {% if tem.active == 1 %}
+                                                <a href="{{ path('back_office_trip_unactive',{id:tem.id, origin:2}) }}" title="Retirer ce voyage de la liste des voyages disponibles"><button class="btn btn-danger" style="margin-top:15px;">Désactiver</button></a>
+                                            {% else %}
+                                                <a href="{{ path('back_office_trip_actived',{id:tem.id, origin:2}) }}" title="Ajouter ce voyage à la liste des voyages disponibles"><button class="btn btn-success" style="margin-top:15px;">Activer</button>
+                                            {% endif %}
+                                            <a href="{{ path('back_office_price_create',{id:tem.id}) }}" title="Voir les prix de ce séjour"><button class="btn btn-primary" style="margin-top:15px;">Voir / Editer les prix</button></a>
+                                            <a href="{{ path('back_office_trip_one',{id:tem.id, origin:1}) }}" title="Voir le détail de ce séjour"><button class="btn btn-warning" style="margin-top:15px;">Détail</button></a>
+                                            <a href="{{ path('back_office_trip_delete',{id:tem.id, originClick:2}) }}" title="Supprimer ce voyage" onclick="return(confirm('Etes-vous sûr de vouloir supprimer ce voyage ?'))"><button class="btn btn-danger" style="margin-top:15px;">Supprimer ce voyage</button></a>                                            
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% endif %}                           
+                        </tbody>
+                    </table>
+                </div>
+	    </div>
+
+    {% endblock %}

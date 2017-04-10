@@ -1,0 +1,64 @@
+{% extends '::baseAdmin.html.twig' %}
+
+	{% block title %}
+		{% if affich == 0 %}
+			{% if origin == 1 %}
+				Nouveau texte de présentation 
+			{% elseif origin == 2 %}
+				Mentions Légales 
+			{% elseif origin == 3 %}
+				Conditions Générales de vente
+			{% endif %}
+		{% else %}
+			{% if origin == 1 %}
+				Mise à jour du texte de présentation
+			{% elseif origin == 2 %}
+				Mise à jour des Mentions légales
+			{% elseif origin == 3 %}
+				Mise à jour des Conditions Générales de Vente
+			{% elseif origin == 4 %}
+				Mise à jour des Conditions tarifaires
+			{% endif %}
+		{% endif %}
+	{% endblock %}
+
+	{% block body %}
+
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					{% if affich == 0 %}
+						{% if origin == 1 %}
+							<h1>Nouveau texte de présentation</h1>
+						{% elseif origin == 2 %}
+							<h1>Mentions Légales</h1>
+						{% elseif origin == 3 %}
+							<h1>Conditions Générales de vente</h1>
+						{% endif %}
+					{% else %}
+						{% if origin == 1 %}
+							<h1> Mise à jour du texte de présentation</h1>
+						{% elseif origin == 2 %}
+							<h1>Mise à jour des Mentions Légales</h1>
+						{% elseif origin == 3 %}
+							<h1>Mise à jour des Conditions Générales de vente</h1>
+						{% elseif origin == 4 %}
+							<h1>Mise à jour des Conditions Tarifaires</h1>
+						{% endif %}
+					{% endif %}			
+
+					{{ form_start(form) }}
+					{{form_row(form.title) }}<br>
+					{{form_row(form.underTitle) }}<br>
+					{{form_row(form.text1) }}	<br>				
+					{{form_row(form.text2) }}	<br>				
+					{{form_row(form.text3) }}	<br>				
+					{{form_row(form.text4) }}	<br>
+								
+				</div>				
+				<div class="col-md-12" style="text-align:center;margin-top:35px;margin-bottom:35px;">{{ form_end(form) }}</div>
+			</div>
+		</div>
+
+	{% endblock %}
+

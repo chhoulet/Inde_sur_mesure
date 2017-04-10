@@ -1,0 +1,308 @@
+back_office_homepage:
+    path:     /homepage
+    defaults: { _controller: BackOfficeBundle:Dashboard:dashboard }
+
+back_office_image_upload:
+    path:     /photo/upload 
+    defaults: { _controller: BackOfficeBundle:Image:upload}
+
+# Gestion des thématiques :
+back_office_thematic_listAndcreate:
+    path:     /thematic/listAndcreate 
+    defaults: { _controller: BackOfficeBundle:Thematic:listAndcreate}
+
+back_office_thematic_update:
+    path:     /thematic/update/{id}
+    defaults: { _controller: BackOfficeBundle:Thematic:update}
+    requirements:
+        id: "[0-9]+"
+
+back_office_thematic_delete:
+    path:     /thematic/delete/{id}
+    defaults: { _controller: BackOfficeBundle:Thematic:delete}
+    requirements:
+        id: "[0-9]+"
+
+back_office_thematic_desactivate:
+    path:     /thematic/desactivate/{id}
+    defaults: { _controller: BackOfficeBundle:Thematic:desactivate}
+    requirements:
+        id: "[0-9]+"
+
+back_office_thematic_activate:
+    path:     /thematic/activate/{id}
+    defaults: { _controller: BackOfficeBundle:Thematic:activate}
+    requirements:
+        id: "[0-9]+"        
+
+# Gestion des voyages :
+back_office_trip:
+    path:    /trip/listAndcreate 
+    defaults: { _controller: BackOfficeBundle:Trip:listAndcreate}
+
+back_office_trip_unactive:
+    path:    /trip/unactive/{id}/{origin}
+    defaults: { _controller: BackOfficeBundle:Trip:unactive}
+    requirements:
+        id: "[0-9]+"
+        origin: "[0-9]+"
+
+back_office_trip_actived:
+    path:    /trip/actived/{id}/{origin}
+    defaults: { _controller: BackOfficeBundle:Trip:actived}
+    requirements:
+        id: "[0-9]+"
+        origin: "[0-9]+"
+
+back_office_trip_listAll:
+    path:    /trip/listAll 
+    defaults: { _controller: BackOfficeBundle:Trip:listAll}
+
+back_office_trip_one:
+    path:    /trip/one/{id}/{origin}
+    defaults: { _controller: BackOfficeBundle:Trip:one}
+    requirements: 
+        id: "[0-9]+"
+        origin: "[0-9]+"
+
+back_office_trip_treated:
+    path:    /trip/treated/{id}
+    defaults: { _controller: BackOfficeBundle:Trip:treated}
+    requirements: 
+        id: "[0-9]+"
+
+back_office_trip_updated:
+    path:    /trip/updated/{id}/{idEstimate}
+    defaults: { _controller: BackOfficeBundle:Trip:updated}
+    requirements: 
+        id: "[0-9]+"
+        idEstimate: "[0-9]+"
+
+back_office_trip_delete:
+    path:    /trip/delete/{id}/{originClick}
+    defaults: { _controller: BackOfficeBundle:Trip:delete}
+    requirements: 
+        id: "[0-9]+"
+        originClick: "[0-9]+"
+
+back_office_trip_denied:
+    path:     /trip/denied/{id}
+    defaults: { _controller: BackOfficeBundle:Trip:denied}
+    requirements:
+        id: "[0-9]+"
+
+# Gestion des descriptions journalieres:
+back_office_underline_trip_create:
+    path:    /underlineTrip/create /{id}
+    defaults: { _controller: BackOfficeBundle:UnderlineTrip:create}
+    requirements:
+        id: "[0-9]+"        
+
+back_office_underline_trip_update:
+    path:    /underlineTrip/update /{id}
+    defaults: { _controller: BackOfficeBundle:UnderlineTrip:update}
+    requirements:
+        id: "[0-9]+"
+
+back_office_underline_trip_delete:
+    path:    /underlineTrip/delete /{id}
+    defaults: { _controller: BackOfficeBundle:UnderlineTrip:delete}
+    requirements:
+        id: "[0-9]+"
+
+#Gestion des prix:
+back_office_price_create:
+    path:    /price/create/{id}
+    defaults: { _controller: BackOfficeBundle:Price:create}
+    requirements:
+        id: "[0-9]+"
+
+back_office_price_delete:
+    path:    /price/delete/{id}
+    defaults: { _controller: BackOfficeBundle:Price:delete}
+    requirements:
+        id: "[0-9]+"
+
+# Gestion des messages :
+back_office_message_list:
+    path:   /message/list/{origin}/{affich}
+    defaults: { _controller: BackOfficeBundle:Message:list}
+    requirements:
+        origin: "[0-9]+"
+        affich: "[0-9]+"
+
+back_office_message_delete:
+    path:   /message/delete/{id}/{affich}
+    defaults: { _controller: BackOfficeBundle:Message:delete}
+    requirements:
+        id: "[0-9]+"
+        affich: "[0-9]+"
+
+back_office_message_answered:
+    path:   /message/answered/{id}/{affich}
+    defaults: { _controller: BackOfficeBundle:Message:answered}
+    requirements:
+        id: "[0-9]+"
+        affich: "[0-9]+"
+
+# Gestion des réservations:
+back_office_reservations_one:
+    path:   /reservations/one/{id}
+    defaults: { _controller: BackOfficeBundle:Reservation:one}
+    requirements:
+        id: "[0-9]+"
+
+back_office_reservations_list:
+    path:     /reservations/list
+    defaults: { _controller: BackOfficeBundle:Reservation:list}
+    
+
+back_office_reservations_listAll:
+    path:     /reservations/listAll
+    defaults: { _controller: BackOfficeBundle:Reservation:listAll}
+    
+    
+back_office_reservations_answered:
+    path:     /reservations/answered/{id}/{affich}
+    defaults: { _controller: BackOfficeBundle:Reservation:answered}
+    requirements:
+        id: "[0-9]+"
+        affich: "[0-9]+"
+
+back_office_reservations_cancelled:
+    path:     /reservations/cancelled/{id}
+    defaults: { _controller: BackOfficeBundle:Reservation:cancelled}
+    requirements:
+        id: "[0-9]+"
+
+back_office_reservations_remove:
+    path:     /reservations/remove/{id}
+    defaults: { _controller: BackOfficeBundle:Reservation:remove}
+    requirements:
+        id: "[0-9]+"
+
+back_office_reservations_accepted:
+    path:     /reservations/accepted/{id}/{affich}
+    defaults: { _controller: BackOfficeBundle:Reservation:accepted}
+    requirements:
+        id: "[0-9]+"
+        affich: "[0-9]+"
+
+back_office_reservations_archived:
+    path:     /reservations/archived/{id}
+    defaults: { _controller: BackOfficeBundle:Reservation:archived}
+    requirements:
+        id: "[0-9]+"
+
+# Gestion des Demandes de devis :
+back_office_estimates_list:
+    path:    /estimates/list 
+    defaults: { _controller: BackOfficeBundle:Estimate:list}
+
+back_office_estimates_listAll:
+    path:    /estimates/listAll
+    defaults: { _controller: BackOfficeBundle:Estimate:listAll}
+
+back_office_estimate_treatment:
+    path:     /estimate/treatment/{id}/{origin}
+    defaults: { _controller: BackOfficeBundle:Estimate:treatment}
+    requirements:
+        id: "[0-9]+"
+        origin: "[0-9]+"
+
+back_office_estimate_treated:
+    path:     /estimate/treated/{id}
+    defaults: { _controller: BackOfficeBundle:Estimate:treated}
+    requirements:
+        id: "[0-9]+"
+
+back_office_estimate_archived:
+    path:     /estimate/archived/{id}
+    defaults: { _controller: BackOfficeBundle:Estimate:archived}
+    requirements:
+        id: "[0-9]+"
+
+back_office_estimate_remove:
+    path:     /estimate/remove/{id}
+    defaults: { _controller: BackOfficeBundle:Estimate:remove}
+    requirements:
+        id: "[0-9]+"
+
+back_office_estimate_cancel:
+    path:     /estimate/cancel/{id}
+    defaults: { _controller: BackOfficeBundle:Estimate:cancel}
+    requirements:
+        id: "[0-9]+"
+
+back_office_estimate_listResponses:
+    path:     /estimate/listResponses/{id}
+    defaults: { _controller: BackOfficeBundle:Estimate:listResponses}
+    requirements:
+        id: "[0-9]+"
+
+# Gestion des Abonnés - newsletter - textes dur :
+back_office_articles_gestionAbo:
+    path:   abonnes/gestionAbo
+    defaults: { _controller: BackOfficeBundle:Abonne:gestionAbo}
+
+back_office_abonnes_list:
+    path:  /abonnes/list 
+    defaults: { _controller: BackOfficeBundle:Abonne:list}
+
+back_office_abonnes_delete:
+    path:  /abonnes/delete/{id}
+    defaults: { _controller: BackOfficeBundle:Abonne:delete}
+    requirements:
+        id: "[0-9]+"
+
+back_office_abonnes_update:
+    path:  /abonnes/update/{id}
+    defaults: { _controller: BackOfficeBundle:Abonne:update}
+    requirements:
+        id: "[0-9]+"
+
+# Gestion des Newsletters
+back_office_newsletter_createNewsletter:
+    path:   /newsletter/createNewsletter 
+    defaults: { _controller: BackOfficeBundle:Abonne:createNewsletter}
+
+back_office_newsletter_oneNewsletter:
+    path:   /newsletter/oneNewsletter/{id}
+    defaults: { _controller: BackOfficeBundle:Abonne:oneNewsletter}
+    requirements:
+        id: "[0-9]+"
+
+back_office_newsletter_deleteNewsletter:
+    path:   /newsletter/deleteNewsletter/{id}
+    defaults: { _controller: BackOfficeBundle:Abonne:deleteNewsletter}
+    requirements:
+        id: "[0-9]+"
+
+back_office_newsletter_sendNewsletter:
+    path:   /newsletter/sendNewsletter/{id}
+    defaults: { _controller: BackOfficeBundle:Abonne:sendNewsletter}
+    requirements:
+        id: "[0-9]+"
+
+# Gestion des Textes dur :
+back_office_article_create:
+    path:   /article/create/{origin}
+    defaults: { _controller: BackOfficeBundle:Abonne:create}
+    requirements:
+        origin: "[0-9]+"
+
+back_office_article_deleteArticle:
+    path:   /article/deleteArticle/{id}
+    defaults: { _controller: BackOfficeBundle:Abonne:deleteArticle}
+    requirements:
+        id: "[0-9]+"
+
+back_office_article_updateArticle:
+    path:   /article/updateArticle/{id}
+    defaults: { _controller: BackOfficeBundle:Abonne:updateArticle}
+    requirements:
+        id: "[0-9]+"
+   
+
+
+

@@ -1,0 +1,55 @@
+		<div class="container" style="text-align:center;">
+			<h2>{{ oneNewsletter.title|upper }}</h2>			
+		</div><br><br>
+
+		<div class="row">
+			<div class="col-md-12" style="color:blue;">
+				<h3>{{ oneNewsletter.undertitle|upper }}</h3>
+			</div><br><br>
+
+			{% for imag in oneNewsletter.image %}
+				<div class="thumbnails" style="margin-left:645px;">
+					<img src="{{ asset('bundles/framework/images/'~imag.filename) }}" style="height:345px;width:450px;">
+				</div>
+			{% endfor %}
+
+		</div><br><br>
+
+		<div class="row">
+			<div class="col-md-12">
+				<h4>{{ oneNewsletter.text1|capitalize }}</h4>
+			</div><br>
+
+				{% for imag in oneNewsletter.image %}
+					{% if imag.filename1 is not null %}
+						<div class="thumbnails" style="margin-left:645px;">
+							<img src="{{ asset('bundles/framework/images/'~imag.filename1) }}" style="height:345px;width:450px;">
+						</div>
+					{% endif %}
+				{% endfor %}
+		</div>
+
+		<hr/>
+
+		<div class="row">
+			<div class="col-md-12">
+				<h4>{{ oneNewsletter.text2|capitalize }}</h4>
+			</div><br>
+
+				{% for imag in oneNewsletter.image %}
+					{% if imag.filename2 is not null %}
+						<div class="thumbnails" style="margin-left:645px;">
+							<img src="{{ asset('bundles/framework/images/'~imag.filename2) }}" style="height:345px;width:450px;">
+						</div>
+					{% endif %}
+				{% endfor %}
+		</div>
+
+		<hr/>
+
+		<div class="row">
+			<div class="col-md-12">
+				<h4>{{ oneNewsletter.text3|capitalize }}</h4>
+			</div><br>			
+		</div>
+

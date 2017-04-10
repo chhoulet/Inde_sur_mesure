@@ -1,0 +1,118 @@
+{% extends '::baseAdmin.html.twig' %}
+
+	{% block title %}Liste de Réservations{% endblock %}
+
+	{% block body %}
+
+		{% for message in app.session.flashBag.get('answered') %}
+			<div id="flash">
+				<p>{{ message }}</p>
+			</div>
+		{% endfor %}
+
+		{% for messag in app.session.flashBag.get('cancelled') %}
+			<div id="flash">
+				<p>{{ messag }}</p>
+			</div>
+		{% endfor %}
+
+		{% for messa in app.session.flashBag.get('remove') %}
+			<div id="flash">
+				<p>{{ messa }}</p>
+			</div>
+		{% endfor %}
+
+		{% for mess in app.session.flashBag.get('accepted') %}
+			<div id="flash">
+				<p>{{ mess }}</p>
+			</div>
+		{% endfor %}
+
+		{% for mes in app.session.flashBag.get('archived') %}
+			<div id="flash">
+				<p>{{ mes }}</p>
+			</div>
+		{% endfor %}
+
+		<div class="col-md-12">
+			
+            <h2>Liste {% if affich == 3 %}complète des Réservations {% else %} des Réservations en cours {% endif %}</h2>          
+	             <div class="table-responsive">
+	                <table id="myTable" class="table table-bordered table-hover table-striped">
+	                    <thead>
+	                        <tr>
+	                            <th>Numéro</th>
+	                            <th>Nom & Prénom</th>
+	                            <th>Email</th>
+	                            <th>Téléphone</th>
+	                            <th>Adresse</th>
+	                            <th>Montant Total</th>
+	                            <th>Date de réception</th>	                            
+	                            <th>Voyage</th>	                            
+	                            <th>Période</th>	                            
+	                            <th>Commentaire Admin</th>	                            
+	                            <th>Statut</th>
+	                            <th>Actions</th>
+	                        </tr>
+	                    </thead>
+	                    <tbody>		
+	                    	{% for reservation in listReservations %}                    
+		                        <tr>
+		                        	<td>{{ reservation.id }}</td>
+		                            <td>{{ reservation.name|upper ~ ' ' ~ reservation.firstname|capitalize }}</td>
+		                            <td>{{ reservation.mail }}</td>
+		                            <td>{{ reservation.phone }}</td>
+		                            <td>{{ reservation.adress|capitalize ~ ' ' ~ reservation.city|capitalize ~ ' ' ~ reservation.postcode }}</td>
+		                            <td>{{ reservation.amountTotal }}</td>
+		                            <td>{{ reservation.dateCreated|date('d-m-Y H:i') }}</td>
+		                            <td><a href="{{ path('back_office_trip_one',{id:reservation.trip.id, origin:origin}) }}">{{ reservation.trip.title|title }}</a></td>
+		                            <td>{{ reservation.trip.period|capitalize }}</td>
+		                            <td>{{ reservation.commentAdmin|capitalize }}</td>
+		                            {% if reservation.archived == 0 %}
+			                            {% if reservation.state == 0 %}
+				                            <td style="background-color:yellow">
+				                            	A traiter !
+				                            </td>
+			                            {% elseif reservation.state == 1 %}
+				                            <td style="background-color:#68d893">
+				                            	En cours de traitement !
+				                            </td>
+				                        {% elseif reservation.state == 2 %}
+				                        	 <td style="background-color:green">
+				                            	Vendue !
+				                            </td>
+				                        {% elseif reservation.state == 3 %}
+				                        	<td style="background-color:red">
+				                            	Annulée !
+				                            </td>
+				                        {% endif %}
+				                    {% else %}
+				                    		{% if reservation.state == 0 %}
+				                            <td style="background-color:yellow">
+				                            	A traiter ! <p style="color:white;">Archivée !</p>
+				                            </td>
+			                            {% elseif reservation.state == 1 %}
+				                            <td style="background-color:#68d893">
+				                            	En cours de traitement ! <p style="color:white;">Archivée !</p>
+				                            </td>
+				                        {% elseif reservation.state == 2 %}
+				                        	 <td style="background-color:green">
+				                            	Vendue ! <p style="color:white;">Archivée !</p>
+				                            </td>
+				                        {% elseif reservation.state == 3 %}
+				                        	<td style="background-color:red">
+				                            	Annulée ! <p style="color:white;">Archivée !</p>
+				                            </td>
+				                        {% endif %}               				                        				                            
+			                        {% endif %}		                            
+		                            <td>
+		                            	<a href="{{ path('back_office_reservations_one',{id:reservation.id, affich:1}) }}" title="Voir le détail" ><button style="margin-bottom:10px;" class="btn btn-success">Détail</button></a>                    	
+		                            </td>                           		                            
+		                        </tr>
+		                    {% endfor %}	                       
+	                    </tbody>
+	                </table>
+	            </div>		            
+	    </div>
+
+	{% endblock %}

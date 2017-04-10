@@ -1,0 +1,71 @@
+{% extends '::baseAdmin.html.twig' %}
+
+    {% block title %}Gestion des Newsletters{% endblock %}
+
+	{% block body %}
+
+		<h2>{{ newsletterUpdated.title|title }}</h2>
+            <div class="table-responsive" style="margin-bottom: 45px;">
+                <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>Titre</th>
+                            <th>Sous-titre</th>
+                            <th>Texte N° 1</th>
+                            <th>Texte N° 2</th>
+                            <th>Texte N° 3</th>
+                            <th>Date de création</th>                               
+                            <th>Date d'envoi</th>
+                            <th>Images</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if newsletterUpdated is not null %}                           
+                            <tr>
+                                <td>{{ newsletterUpdated.title|upper }}</td>
+                                <td>{{ newsletterUpdated.underTitle|capitalize }}</td>
+                                <td>{{ newsletterUpdated.text1|capitalize }}</td>
+                                <td>{{ newsletterUpdated.text2|capitalize }}</td>
+                                <td>{{ newsletterUpdated.text3|capitalize }}</td>
+                                <td>{{ newsletterUpdated.dateCreated|date('d-m-Y H:i') }}</td>
+                                <td>{{ newsletterUpdated.dateSended|date('d-m-Y H:i') }}</td>                                                               
+                                <td>
+                                    {% for ima in newsletterUpdated.image %}
+                                        <img src="{{ asset('bundles/framework/images/' ~ ima.filename) }}" alt="" style="height:80px;width:125px;margin-bottom:15px;">
+                                        <img src="{{ asset('bundles/framework/images/' ~ ima.filename1) }}" alt="" style="height:80px;width:125px;margin-bottom:15px;">
+                                        <img src="{{ asset('bundles/framework/images/' ~ ima.filename2) }}" alt="" style="height:80px;width:125px;">
+                                    {% endfor %}
+                                </td>
+                                <td>                                        
+                                   <a href="{{ path('back_office_newsletter_oneNewsletter',{id:newsletterUpdated.id}) }}" title="Voir le détail de cette newsletter"><button class="btn btn-warning" style="margin-top:15px;">Détail</button></a>                           
+                                    <a href="{{ path('back_office_newsletter_sendNewsletter',{id:newsletterUpdated.id}) }}" title="Envoyer cette newsletter" onclick="return(confirm('Etes-vous sûr de vouloir envoyer cette newsletter ?'))"><button class="btn btn-success" style="margin-top:15px;">Envoyer cette newsletter</button></a>
+                                </td>
+                            </tr>                             
+                        {% endif %}                          
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="container">
+            <h3 style="text-align:center;">Mettre à jour cette newsletter :</h3>
+            	<div class="col-md-12">
+            	
+            		{{ form_start(form) }}
+            		{{ form_row(form.title) }}
+            		{{ form_row(form.underTitle) }}
+            		{{ form_row(form.text1) }}
+            		{{ form_row(form.text2) }}
+            		{{ form_row(form.text3) }}
+	            		{% for img in form.image %}
+	            			{{ form_row(img.filename) }}
+	            			{{ form_row(img.filename1) }}
+	            			{{ form_row(img.filename2) }}
+	            		{% endfor %}
+	            		<div style="text-align:center;margin-top:15px;margin-bottom: 25px;">
+            				{{ form_end(form) }}
+            			</div>
+            	</div>
+            	
+
+    {% endblock %}

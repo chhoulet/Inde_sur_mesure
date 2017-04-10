@@ -1,0 +1,152 @@
+{% extends '::baseAdmin.html.twig' %}
+
+	{% block title %}Détail d'une réservation{% endblock %}
+
+	{% block body %}		
+
+		<div class="col-md-12">
+
+            	<h2>Réservation : {{ reservation.name|upper ~' '~ reservation.firstname|capitalize }}</h2>
+           
+	            <div class="table-responsive">
+	                <table class="table table-bordered table-hover table-striped">
+	                    <thead>
+	                        <tr>
+	                        	<th>Numéro</th>
+	                            <th>Mail</th>	                            
+	                            <th>Nombre d'adultes</th>
+	                            <th>Nombre d'enfants</th>
+	                            <th>Montant Total</th>
+	                            <th>Commentaire</th>
+	                            <th>Date de réception</th>	                            
+	                            <th>Voyage</th>	                            
+	                            <th>Période</th>	                            
+	                            <th>Commentaire Admin</th>	                            
+	                            <th>Statut</th>
+	                            <th>Actions</th>
+	                        </tr>
+	                    </thead>
+	                    <tbody>		                    
+		                        <tr>
+		                        	<td>{{ reservation.id }}</td>
+		                            <td>{{ reservation.mail }}</td>		                           
+		                            <td>{{ reservation.nbrAdults }}</td>
+		                            <td>{{ reservation.nbrChildren }}</td>
+		                            <td>{{ reservation.amountTotal }}</td>
+		                            <td>{{ reservation.comment|capitalize }}</td>
+		                            <td>{{ reservation.dateCreated|date('d-m-Y H:i') }}</td>
+		                            <td>{{ reservation.trip.title|title }}</td>
+		                            <td>{{ reservation.trip.period|capitalize }}</td>
+		                            <td>{{ reservation.commentAdmin|capitalize }}</td>
+		                            {% if reservation.state == 0 %}
+			                            <td style="background-color:red">
+			                            	Non Traitée !
+			                            </td>
+		                            {% elseif reservation.state == 1 %}
+			                            <td style="background-color:rgb(104,216,147)">
+			                            	En cours de traitement !
+			                            </td>		                           
+		                            {% elseif reservation.state == 2 %}
+			                            <td style="background-color:green">
+			                            	Réservation validée - Vente
+			                            </td>
+		                            {% elseif reservation.state == 3 %}
+			                            <td style="background-color:red">
+			                            	Annulée !
+			                            </td>
+			                        {% elseif reservation.state == 4 %}
+			                        	<td style="background-color:rgb(98,123,114)">
+			                            	Archivée !
+			                            </td>
+		                            {% endif %}
+		                            <td>
+		                            	{% if reservation.state == 0 %}
+		                            		<a href="{{ path('back_office_reservations_answered',{id:reservation.id, affich:1}) }}" title="En attente de traitement" onclick="return(confirm('Un contact doit avoir été noué avec le client pour marquer cette réservation en traitement en cours ?'))"><button style="margin-bottom:10px;" class="btn btn-warning">Répondre</button></a>
+		                            		<a href="{{ path('back_office_reservations_cancelled',{id:reservation.id, affich:1}) }}" title="Annuler cette réservation" onclick="return(confirm('Etes-vous sûr de vouloir annuler cette réservation ?'))"><button style="margin-bottom:10px;" class="btn btn-info">Annuler</button></a>
+		                            		<button class="btn btn-success" data-toggle="modal" data-target="#myModal">
+                        						Ajouter un commentaire
+                    						</button>		                        
+		                            	{% elseif reservation.state == 1 %}
+		                            		<a href="{{ path('back_office_reservations_accepted',{id:reservation.id, affich:1}) }}" title="Marquer cette réservation en traité" onclick="return(confirm('Etes-vous sûr de vouloir marquer cette réservation comme vendue ?'))"><button style="margin-bottom:10px;" class="btn btn-success">Vendue</button></a>
+		                            		<a href="{{ path('back_office_reservations_cancelled',{id:reservation.id, affich:1}) }}" title="Annuler cette réservation" onclick="return(confirm('Etes-vous sûr de vouloir annuler cette réservation ?'))"><button style="margin-bottom:10px;" class="btn btn-info">Annuler</button></a>
+		                            		<button class="btn btn-success" data-toggle="modal" data-target="#myModal">
+                        						Ajouter un commentaire
+                    						</button>	
+		                           		{% elseif reservation.state == 2 %}
+		                           			<a href="{{ path('back_office_reservations_archived',{id:reservation.id, affich:1}) }}" title="Archiver cette réservation" onclick="return(confirm('Etes-vous sûr de vouloir archiver cette réservation ?'))"><button style="margin-bottom:10px;" class="btn btn-primary">Archiver</button></a>
+		                           			<a href="{{ path('back_office_reservations_cancelled',{id:reservation.id, affich:1}) }}" title="Annuler cette réservation" onclick="return(confirm('Etes-vous sûr de vouloir annuler cette réservation ?'))"><button style="margin-bottom:10px;" class="btn btn-info">Annuler</button></a>
+		                           			<button class="btn btn-success" data-toggle="modal" data-target="#myModal">
+                        						Ajouter un commentaire
+                    						</button>
+		                           		{% elseif reservation.state == 3 %}
+		                           			<a href="{{ path('back_office_reservations_archived',{id:reservation.id, affich:1}) }}" title="Archiver cette réservation" onclick="return(confirm('Etes-vous sûr de vouloir archiver cette réservation ?'))"><button style="margin-bottom:10px;" class="btn btn-primary">Archiver</button></a>
+		                           			<a href="{{ path('back_office_reservations_remove',{id:reservation.id, affich:1}) }}" title="Supprimer cette réservation" onclick="return(confirm('Etes-vous sûr de vouloir supprimer cette réservation ?'))"><button style="margin-bottom:10px;" class="btn btn-danger">Supprimer</button></a>
+		                           			<button class="btn btn-success" data-toggle="modal" data-target="#myModal">
+                        						Ajouter un commentaire
+                    						</button>              	
+		                           		{% endif %}
+		                            </td>                           		                            
+		                        </tr>		                                         
+	                    </tbody>
+	                </table>
+	            </div>	
+				<hr/>
+				<div>
+
+					<div class="table-responsive">
+		                <table class="table table-bordered table-hover table-striped">
+		                    <thead>
+		                        <tr>
+		                        	<th>Catégorie</th>
+		                            <th>Pers seule</th>	                            
+		                            <th>Couple</th>
+		                            <th>Nombre de chambre Pers seule</th>	                            
+		                            <th>Nombre de chambre Couple</th>	                            
+		                        </tr>
+		                    </thead>
+		                    <tbody>		                    
+							    {% for price in reservation.price %}
+			                        <tr>
+								            <td>{{ price.category }}</td>
+								            <td>{{ price.single }}</td>
+								            <td>{{ price.couple }}</td>
+								            <td>{{ price.numberRoomsSingle }}</td>
+								            <td>{{ price.numberRoomsCouple }}</td>
+						            </tr>
+							    {% endfor %}
+						     </tbody>
+		                </table>
+					</div>
+
+	            <div class="row">
+	            	<div class="col-md-12" style="height:100px;text-align:center;margin-top:25px;">
+	            		<a href="{{ path('back_office_reservations_list') }}"><button style="margin-top:25px;" class="btn btn-warning btn-lg">Voir l'ensemble des réservations</button></a>
+	            	</div>
+	            </div>
+	    </div>
+	                       
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">{{ reservation.name|upper ~' '~ reservation.firstname|capitalize}}</h4>
+                    </div>
+                    <div class="modal-body">
+                        {{ form_start(form)}}
+                        {{ form_row(form.commentAdmin)}}
+                        
+                    </div>
+                    <div class="modal-footer">                                    
+                        {{ form_end(form)}}
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+                
+
+	{% endblock %}

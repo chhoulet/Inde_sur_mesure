@@ -1,0 +1,112 @@
+{% extends '::baseAdmin.html.twig' %}
+
+	{% block title %}{{ one.title|upper }}{% endblock %}
+
+	{% block body %}
+
+		<div class="container">
+
+            {% for message in app.session.flashBag.get('prices') %}
+                <div id="flash">
+                    <p>{{ message }}</p>
+                </div>
+            {% endfor %}
+
+            {% for messa in app.session.flashBag.get('resa') %}
+                <div id="flash">
+                    {{ messa }}
+                </div>
+            {% endfor %}
+
+            <div class="row">
+                <div class="box">
+                    <div class="col-lg-12">
+                        <hr>
+                        <h2 class="intro-text text-center">
+                            <strong>{{ one.title|upper }}</strong>
+                        </h2>
+                        <hr>
+                         <h2 class="intro-text text-center">
+    						<div class="col-md-6">
+                            	<strong>{{ one.place|upper }}</strong>
+                           	</div>
+    						<div class="col-md-6">
+    							<strong>{{ one.period|upper }}</strong>
+                            </div>
+                        </h2>
+                        <hr/>
+                    </div>
+                    <div class="col-md-12" style="margin-top:25px;">
+                    	{% for img in one.image %}                        
+                        	<img class="img-responsive img-border img-full" src="{{ asset('bundles/framework/images/' ~ img.filename )}}" alt="" style="height:450px;margin:auto;">                       
+                        {% endfor %}                	
+                    </div>
+                    <div class="col-md-12">
+                        <p style="text-align:left;margin-top:40px;margin-bottom:20px;">{{ one.description|capitalize }}</p>
+                        <p><strong>A partir du : </strong>{{ one.dateBegining|date('d-m-Y') }}</p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="box">
+                    <div class="col-md-12">
+                        <hr>
+                        <h2 class="intro-text text-center">
+                            <strong>{{ one.title|capitalize }}</strong>
+                        </h2>
+                        <hr/>
+                    </div>
+
+	                {% for img in one.image %}
+	                	{% if img.filename1 is not null and img.filename2 is not null %}
+			                <div class="col-sm-6 text-center">
+			                    <img class="img-responsive" src="{{ asset('bundles/framework/images/' ~ img.filename1)}}" alt="" style="height:250px;width:515px;">
+			                    {% if one.comment1 is not null %}
+				                    <p style="text-align:left;margin-top:20px;margin-bottom:20px;">{{ one.comment1|capitalize }}</p>
+			                    {% endif %}
+			                </div>
+			                <div class="col-sm-6 text-center">
+			                    <img class="img-responsive" src="{{ asset('bundles/framework/images/' ~ img.filename2)}}" alt="" style="height:250px;width:515px;">
+			                    {% if one.comment2 is not null %}
+				                    <p style="text-align:left;margin-top:20px;margin-bottom:20px;">{{one.comment2|capitalize }}</p>
+			                    {% endif %}
+			                </div>
+			            {% endif %}
+			            {% if img.filename1 is not null and img.filename2 is null %}
+			                <div class="col-sm-12 text-center">
+			                    <img class="img-responsive" src="{{ asset('bundles/framework/images/' ~ img.filename1)}}" alt="" style="height:250px;width:515px;">
+			                    {% if one.comment1 is not null %}
+				                    <p style="text-align:left;margin-top:20px;margin-bottom:20px;">{{ one.comment1|capitalize }}</p>
+			                    {% endif %}
+			                </div>
+			            {% endif %}
+			            <hr/>
+			        {% endfor %}
+
+                    <div class="clearfix"></div>
+                        {% if origin == 1 %}                                                                                                    
+                            <div class="col-md-4" style="text-align:center;margin-top:29px;margin-bottom:29px;">
+                                <a href="{{ path('back_office_price_create',{id:one.id}) }}"><button class="btn btn-warning btn-lg">Voir / Ajouter les tarifs</button>
+                            </div>                 
+                            <div class="col-md-4" style="text-align:center;margin-top:29px;margin-bottom:29px;">
+                                <a href="{{ path('back_office_underline_trip_create',{id:one.id}) }}"><button class="btn btn-info btn-lg">Voir / Ajouter un descriptif</button>
+                            </div>
+                            <div  class="col-md-4" style="text-align:center;margin-top:29px;margin-bottom:29px;">
+                                <a href="{{ path('back_office_trip_updated',{id:one.id, idEstimate:0}) }}" title="Mise à jour du voyage"><button class="btn btn-warning btn-lg">Mise à jour de ce voyage</button></a>
+                            </div>
+                        {% else %}
+                            <div class="col-md-6" style="text-align:center;margin-top:29px;margin-bottom:29px;">
+                                <a href="{{ path('back_office_underline_trip_create',{id:one.id}) }}"><button class="btn btn-info btn-lg">Voir / Ajouter un descriptif</button>
+                            </div>
+                            <div  class="col-md-6" style="text-align:center;margin-top:29px;margin-bottom:29px;">
+                                <a href="{{ path('back_office_trip_updated',{id:one.id}) }}" title="Mise à jour du voyage"><button class="btn btn-warning btn-lg">Mise à jour de ce voyage</button></a>
+                            </div>
+                        {% endif %}
+                </div>
+            </div>
+
+        </div>
+
+    {% endblock %}

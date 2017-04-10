@@ -1,0 +1,139 @@
+{% extends '::baseAdmin.html.twig' %}
+
+	{% block title %}Réponses personnalisées {% endblock %}
+
+	{% block body %}
+
+		<div class="col-md-12">
+
+        {% for trip in app.session.flashBag.get('deleteTrip') %}
+            <div id="flash">{{ trip }}</div>
+        {% endfor %}
+
+        {% for tri in app.session.flashBag.get('tripChoice') %}
+            <div id="flash">{{ tri }}</div>
+        {% endfor %}
+
+        {% for trips in app.session.flashBag.get('updateTrip2') %}
+            <div id="flash">{{ trips }}</div>
+        {% endfor %}                
+			
+            <h2>Liste des Voyages sur mesure proposés à : {{ estimate.user.name|upper ~' '~ estimate.user.firstname|capitalize }}</h2>
+                <div class="table-responsive">
+                    <table id="myTable" class="table table-bordered table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>Titre</th>
+                                <th>Commentaire Photo N° 2</th>
+                                <th>Commentaire Photo N° 3</th>
+                                <th>Description N°1</th>
+                                <th>Date de début</th>
+                                <th>Date de fin</th>
+                                <th>Thematique</th>
+                                <th>Brochure</th>
+                                <th>Prix global</th>
+                                <th>Nbr Personnes</th>
+                                <th>Nbr jours</th>
+                                <th>Images</th>
+                                <th>Statut</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if listResponses is not null and listResponses is not empty %}
+                                {% for tem in listResponses %}
+                                    <tr>
+                                        <td>        
+                                            {% if tem.title is not null %}
+                                                {{ tem.title|upper }}
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if tem.comment1 is not null %}
+                                                {{ tem.comment1|capitalize }}
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if tem.comment2 is not null %}
+                                                {{ tem.comment2|capitalize }}
+                                            {% endif %}
+                                        </td>
+                                        
+                                        <td>
+                                        {% if tem.description is not null %}
+                                            {{ tem.description|capitalize }}
+                                        {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if tem.dateBegining is not null %}
+                                                {{ tem.dateBegining|date('d-m-Y') }}
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if tem.dateEnding is not null %}
+                                                {{ tem.dateEnding|date('d-m-Y') }}
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if tem.thematic is not null %}
+                                                {{ tem.thematic.name|upper }}
+                                            {% endif %}                                                                                   
+                                        </td>
+                                        <td>
+                                            {% if tem.brochure is not null %}
+                                                <a href="{{ asset('bundles/framework/brochures/' ~ tem.brochure) }}" target="_blank">Voir Brochure</a>
+                                            {% else %}
+                                                <p>Pas de brochure téléchargée </p>
+                                            {% endif %}                                                                                   
+                                        </td>
+                                        <td>
+                                            {% if tem.globalPrice is not null %}
+                                                {{ tem.globalPrice }} €
+                                            {% endif %}                                                                                   
+                                        </td>                                       
+                                        <td>{{ tem.numberPerson }}</td>
+                                        <td>{{ tem.numberDays }}</td>
+                                        <td>                                       
+                                            {% if tem.image is not null and tem.image is not empty %}
+                                                {% for ima in tem.image %}                                                  
+                                                    <img src="{{ asset('bundles/framework/images/' ~ ima.filename) }}" alt="" style="height:80px;width:125px;margin-bottom:10px;">
+                                                    <img src="{{ asset('bundles/framework/images/' ~ ima.filename1) }}" alt="" style="height:80px;width:125px;margin-bottom:10px;">
+                                                    <img src="{{ asset('bundles/framework/images/' ~ ima.filename2) }}" alt="" style="height:80px;width:125px;">
+                                                {% endfor %}
+                                            {% endif %}
+                                        </td>
+                                            {% if tem.sold == true %}
+                                                <td style="background-color:green">
+                                                    Vendu !
+                                                </td>
+                                            {% elseif tem.state == 1 %}
+                                                <td style="background-color:red">
+                                                    Refusé !
+                                                </td>
+                                            {% elseif tem.state == 0 and tem.sold == false %}
+                                                <td style="background-color:#68d893">
+                                                    En cours de traitement 
+                                                </td>
+                                            {% endif %}
+                                        <td>
+                                            {% if tem.state == 0 %}
+                                                {% if tem.sold == false %}                              
+                                                    <a href="{{ path('back_office_underline_trip_create',{id:tem.id}) }}" title="Voir le détail du voyage"><button class="btn btn-info" style="margin-top:15px;">Voir/Ajouter Jours</button></a>
+                                                    <a href="{{ path('back_office_trip_updated',{id:tem.id, idEstimate:estimate.id}) }}" title="Mise à jour du voyage"><button class="btn btn-info" style="margin-top:15px;">Mise à jour de ce voyage</button></a>
+                                                    <a href="{{ path('back_office_trip_treated',{id:tem.id}) }}" title="Marquer cette Proposition comme vendue"><button class="btn btn-success" style="margin-top:15px;">Proposition acceptée</button></a>    
+                                                    <a href="{{ path('back_office_trip_denied',{id:tem.id}) }}" title="Marquer cette Proposition comme refusée"><button class="btn btn-danger" style="margin-top:15px;">Proposition refusée</button></a>     
+                                                {% endif %}
+                                            {% endif %}
+                                                <a href="{{ path('back_office_trip_delete',{id:tem.id, originClick:3}) }}" title="Supprimer ce voyage" onclick="return(confirm('Etes-vous sûr de vouloir supprimer cette proposition ?'))"><button class="btn btn-danger" style="margin-top:15px;">Supprimer cette proposition</button></a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% endif %}                           
+                        </tbody>
+                    </table>
+                </div>
+	    </div>
+
+    {% endblock %}
+
+      

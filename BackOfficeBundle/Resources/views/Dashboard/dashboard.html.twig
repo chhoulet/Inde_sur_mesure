@@ -1,0 +1,296 @@
+{% extends '::baseAdmin.html.twig' %}
+
+    {% block body %}        
+
+        <!-- Page Heading -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">
+                     Inde<small> Dashboard</small>
+                </h1>
+                
+            </div>
+        </div>
+        <!-- /.row -->
+        {% for message in app.session.flashBag.get('errphotos') %}
+            <div id="flash">
+                <p>{{ message }}</p>
+            </div>
+        {% endfor %}
+
+        {% for messag in app.session.flashBag.get('photo') %}
+            <div id="flash">
+                <p>{{ messag }}</p>
+            </div>
+        {% endfor %}
+
+        {% for messa in app.session.flashBag.get('photos') %}
+            <div id="flash">
+               <p> {{ messa }}</p>
+            </div>
+        {% endfor %}
+
+        <div class="row"> 
+
+            <div class="col-lg-4 col-md-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-tasks fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge">{{ nbrEstimates }}</div>
+                                <div>{% if(nbrEstimates > 1) %} Demandes de devis reçues {% else %} Demande de devis reçue {% endif %}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#">
+                        <div class="panel-footer">
+                            <span class="pull-left"><a href="{{ path('back_office_estimates_list') }}">Voir la liste</a></span>
+                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="panel panel-yellow">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-shopping-cart fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge">{{ nbrestimatesprocessed }}</div>
+                                <div>{% if(nbrestimatesprocessed > 1) %} Demandes de devis - Réponse envoyée{% else %} Demande de devis - Réponse envoyée{% endif %}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#">
+                        <div class="panel-footer">
+                            <span class="pull-left"><a href="{{ path('back_office_estimates_list') }}">Voir la liste</a></span>
+                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="panel panel-green">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-shopping-cart fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge">{{ countTripPrivateSold }}</div>
+                                <div>{% if(countTripPrivateSold > 1) %} Voyages sur-mesure vendus{% else %} Voyage sur-mesure vendu{% endif %}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#">
+                        <div class="panel-footer">
+                            <span class="pull-left"><a href="{{ path('back_office_estimates_list') }}">Voir la liste</a></span>
+                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+                </div>
+            </div> 
+            <div class="col-lg-4 col-md-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-shopping-cart fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge">{{ nbrResas }}</div>
+                                <div>{% if(nbrResas > 1) %} Réservations de séjour en attente {% else %} Réservation de séjour en attente{% endif %}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#">
+                        <div class="panel-footer">
+                            <span class="pull-left"><a href="{{ path('back_office_reservations_list') }}">Voir la liste</a></span>
+                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="panel panel-yellow">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-shopping-cart fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge">{{ nbrResasProcessed }}</div>
+                                <div>{% if(nbrResasProcessed > 1) %} Réservations de séjour en traitement {% else %} Réservation de séjour en traitement{% endif %}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#">
+                        <div class="panel-footer">
+                            <span class="pull-left"><a href="{{ path('back_office_reservations_list') }}">Voir la liste</a></span>
+                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>                        
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="panel panel-green">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-shopping-cart fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge">{{ nbrResasSold }}</div>
+                                <div>{% if(nbrResasSold > 1) %} Réservations vendues{% else %} Réservation vendue{% endif %}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#">
+                        <div class="panel-footer">
+                            <span class="pull-left"><a href="{{ path('back_office_reservations_list') }}">Voir la liste</a></span>
+                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+                              
+            <div class="col-lg-6">
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><i class="fa fa-clock-o fa-fw"></i>Réservations reçues à traiter</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="list-group">
+                            {% for resa in listResa %}
+                                <a href="{{ path('back_office_reservations_one',{id:resa.id}) }}" class="list-group-item">
+                                    <span class="badge"> {{ resa.amountTotal }} €</span>
+                                    <i class="fa fa-fw fa-money"> </i>{{ resa.name|upper ~ ' ' ~ resa.firstname|capitalize }}<br>{{ resa.trip.title|upper }} 
+                                </a>
+                            {% endfor %}                         
+                        </div>                        
+                    </div>
+                    <div class="panel-footer">
+                        <div class="text-right">
+                            <a href="{{ path('back_office_reservations_list') }}">Voir toutes les réservations <i class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><i class="fa fa-clock-o fa-fw"></i>Demandes de devis enregistrées</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="list-group">
+                            {% for estim in listEstimates %}
+                                <a href="#" class="list-group-item">
+                                    <span class="badge"></span>
+                                    <p>{{ estim.user.name|upper ~' '~ estim.user.firstname|capitalize }}<br>
+                                    Date de départ souhaitée: {{ estim.dateDeparture|date('d-m-Y') }}<br>
+                                    Date d'envoi de la demande : {{ estim.dateSended|date('d-m-Y H:i') }}</p> 
+                                </a>
+                            {% endfor %}                         
+                        </div>                        
+                    </div>
+                    <div class="panel-footer">
+                        <div class="text-right">
+                            <a href="{{ path('back_office_estimates_list') }}">Voir toutes les demandes <p class="fa fa-arrow-circle-right"></p></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-12">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Transactions - vue générale du CA par prestations - Année : <strong>{{ yearActual }}</strong>
+                        <div class="pull-right" style="margin-left:45px;"><span>CA Réservations : <strong>{{ amountTotalRésas }}</strong> €</span></div> 
+                        <div class="pull-right" style="margin-left:145px;"><span>CA Voyages sur mesure : <strong>{{ amountTotalTrips }}</strong> €</span></div></h3>
+                        <div style="text-align:center;"><strong>CA TOTAL : {{ amountToTalInde }} €</strong></div>
+                    </div>
+
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table id="myTable" class="table table-bordered table-hover table-striped">
+                                <thead>
+                                    <tr style="text-align:center;"><strong>Réservations</strong></tr>
+                                    <tr>
+                                        <th>Référence </th>
+                                        <th>Date de création</th>
+                                        <th>Nom et Prénom</th>
+                                        <th>Voyage</th>
+                                        <th>Montant</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for resa in resasSoldYear %}
+                                        <tr>
+                                            <td>{{ resa.id }}</td>
+                                            <td>{{ resa.dateCreated|date('d-m-Y H:i') }}</td>
+                                            <td>{{ resa.name|upper ~' '~ resa.firstname|capitalize }}</td>
+                                            <td><a href="{{ path('back_office_trip_one',{id:resa.trip.id, origin:1}) }}" title="Voir le détail de ce voyage">{{ resa.trip.title|capitalize }}</a></td>
+                                            <td>{{ resa.amountTotal }} €</td>                                            
+                                        </tr>
+                                    {% endfor %}                                                                                                          
+                                </tbody>
+                            </table>
+                        </div>                        
+                    </div>
+
+
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table id="myTable1" class="table table-bordered table-hover table-striped">
+                                <thead>
+                                 <tr style="text-align:center;"><strong>Voyages sur mesure</strong></tr>
+                                    <tr>
+                                        <th>Référence </th>
+                                        <th>Date de création</th>
+                                        <th>Nom et Prénom</th>
+                                        <th>Voyage</th>
+                                        <th>Montant</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for trip in tripsSoldYear %}
+                                        <tr>
+                                            <td>{{ trip.id }}</td>
+                                            <td>{{ trip.dateCreated|date('d-m-Y H:i') }}</td>
+                                            <td>
+                                            {% for estim in trip.estimate %}
+                                                {{ estim.user.name|upper ~' '~ estim.user.firstname|capitalize }}</td>
+                                            {% endfor %}
+                                            <td>
+                                                <a href="{{ path('back_office_trip_one',{id:trip.id, origin:2}) }}" title="Voir le détail de ce voyage">{{ trip.title|capitalize }}</a>
+                                            </td>
+                                            <td>{{ trip.globalPrice }} €</td>                                            
+                                        </tr>
+                                    {% endfor %}                                                                                         
+                                </tbody>
+                            </table>
+                        </div>                        
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+    {% endblock %}     
+
+    {% block javascript %}      
+        <script type="text/javascript">{{ parent() }}</script>
+    {% endblock %}
